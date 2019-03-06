@@ -33,10 +33,15 @@ namespace FitnessTracker.API
         {
             services.AddCors(options =>
             {
+                var origins = Configuration.GetSection("CorsOrigins")
+                    .AsEnumerable()
+                    .Where(origin => !string.IsNullOrWhiteSpace(origin.Value))
+                    .Select(origin => origin.Value);
+
                 options.AddPolicy(_corsPolicyName,
                     builder =>
                     {
-                        builder.WithOrigins("http://localhost:4200")
+                        builder.WithOrigins(origins.ToArray())
                             .AllowAnyHeader()
                             .AllowAnyMethod();
                     });
