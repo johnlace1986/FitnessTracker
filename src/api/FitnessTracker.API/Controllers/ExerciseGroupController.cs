@@ -7,12 +7,14 @@ using FitnessTracker.API.Models;
 using FitnessTracker.Models;
 using FitnessTracker.MongoDB;
 using FitnessTracker.MongoDB.ExerciseGroup;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FitnessTracker.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("FitnessTracker.Web")]
     public class ExerciseGroupController : ControllerBase
     {
         private readonly IExerciseGroupClient _client;

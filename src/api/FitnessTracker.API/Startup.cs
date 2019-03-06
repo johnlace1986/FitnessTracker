@@ -26,9 +26,22 @@ namespace FitnessTracker.API
 
         public IConfiguration Configuration { get; }
 
+        private readonly string _corsPolicyName = "FitnessTracker.Web";
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(_corsPolicyName,
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:4200")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
+            });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddSingleton<IFitnessTrackerContext>(provider =>
@@ -53,7 +66,8 @@ namespace FitnessTracker.API
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            app.UseCors(_corsPolicyName);
+
             app.UseMvc();
         }
     }
