@@ -10,5 +10,7 @@ namespace FitnessTracker.MongoDB.ExerciseGroup
         IEnumerable<Models.ExerciseGroup> GetExerciseGroups();
 
         Task<Models.ExerciseGroup> InsertAsync(double weight, DateTime recorded, CancellationToken cancellationToken);
+
+        Task DeleteAsync(Guid id, CancellationToken cancellationToken);
     }
 }

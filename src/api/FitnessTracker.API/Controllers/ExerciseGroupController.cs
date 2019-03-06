@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using EnsureThat;
@@ -33,6 +34,12 @@ namespace FitnessTracker.API.Controllers
         public Task<ExerciseGroup> Put([FromBody] ExerciseGroupDto exerciseGroup, CancellationToken cancellationToken)
         {
             return _client.InsertAsync(exerciseGroup.Weight, exerciseGroup.Recorded, cancellationToken);
+        }
+
+        [HttpDelete("{id}")]
+        public Task Delete(Guid id, CancellationToken cancellationToken)
+        {
+            return _client.DeleteAsync(id, cancellationToken);
         }
     }
 }

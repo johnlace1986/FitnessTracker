@@ -19,7 +19,6 @@
     },
     "FitnessTracker.API": {
       "commandName": "Project",
-      "launchBrowser": true,
       "launchUrl": "api/exercisegroup",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

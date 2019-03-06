@@ -38,5 +38,11 @@ namespace FitnessTracker.MongoDB.ExerciseGroup
 
             return exerciseGroup;
         }
+
+        public Task DeleteAsync(Guid id, CancellationToken cancellationToken)
+        {
+            var filter = Builders<Models.ExerciseGroup>.Filter.Eq(exerciseGroup => exerciseGroup.Id, id);
+            return _collection.DeleteOneAsync(filter, new DeleteOptions(), cancellationToken);
+        }
     }
 }
