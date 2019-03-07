@@ -5,12 +5,8 @@ using System.Threading.Tasks;
 
 namespace FitnessTracker.MongoDB.ExerciseGroup
 {
-    public interface IExerciseGroupClient
+    public interface IExerciseGroupClient : IClient<Models.ExerciseGroup>
     {
-        IEnumerable<Models.ExerciseGroup> GetExerciseGroups();
-
-        Task<Models.ExerciseGroup> InsertAsync(double weight, DateTime recorded, CancellationToken cancellationToken);
-
-        Task DeleteAsync(Guid id, CancellationToken cancellationToken);
+        Task<Models.ExerciseGroup> InsertAsync(DateTime recorded, double weight, CancellationToken cancellationToken);
     }
 }

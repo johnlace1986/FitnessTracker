@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using EnsureThat;
 using FitnessTracker.API.Models;
 using FitnessTracker.Models;
 using FitnessTracker.MongoDB;
-using FitnessTracker.MongoDB.ExerciseGroup;
+using FitnessTracker.MongoDB.Exercise;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FitnessTracker.API.Controllers
@@ -15,27 +17,27 @@ namespace FitnessTracker.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors("FitnessTracker.Web")]
-    public class ExerciseGroupController : ControllerBase
+    public class ExerciseController : ControllerBase
     {
-        private readonly IExerciseGroupClient _client;
+        private readonly IExerciseClient _client;
 
-        public ExerciseGroupController(IFitnessTrackerContext context)
+        public ExerciseController(IFitnessTrackerContext context)
         {
             Ensure.That(context).IsNotNull();
 
-            _client = context.ExerciseGroupClient;
+            _client = context.ExerciseClient;
         }
 
         [HttpGet]
-        public IEnumerable<ExerciseGroup> Get(CancellationToken cancellation)
+        public IEnumerable<Exercise> Get(CancellationToken cancellation)
         {
             return _client.Get();
         }
 
         [HttpPut]
-        public Task<ExerciseGroup> Put([FromBody] ExerciseGroupDto exerciseGroup, CancellationToken cancellationToken)
+        public Task<Exercise> Put([FromBody] ExerciseDto exercise, CancellationToken cancellationToken)
         {
-            return _client.InsertAsync(exerciseGroup.Recorded, exerciseGroup.Weight, cancellationToken);
+            return _client.InsertAsync(exercise.Recorded, exercise.TimeTaken, exercise.Distance, exercise.CaloriesBurned, cancellationToken);
         }
 
         [HttpDelete("{id}")]

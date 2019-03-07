@@ -63,7 +63,6 @@ export class NewExerciseGroupComponent implements OnInit {
         this._service.add(this.weight, this.recorded)          
           .subscribe(
             result => {
-              console.log(result);
               this._router.navigate([''])
             },
             () => {

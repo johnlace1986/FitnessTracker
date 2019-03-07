@@ -2,12 +2,8 @@
 
 namespace FitnessTracker.Models
 {
-    public class ExerciseGroup
+    public class ExerciseGroup : ModelBase
     {
-        public Guid Id { get; set; }
-
         public double Weight { get; set; }
-
-        public DateTime Recorded { get; set; }
     }
 }

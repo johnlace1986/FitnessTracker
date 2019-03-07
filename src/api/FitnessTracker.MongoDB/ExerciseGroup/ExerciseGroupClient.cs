@@ -7,25 +7,14 @@ using MongoDB.Driver;
 
 namespace FitnessTracker.MongoDB.ExerciseGroup
 {
-    public class ExerciseGroupClient : IExerciseGroupClient
+    public class ExerciseGroupClient : ClientBase<Models.ExerciseGroup>, IExerciseGroupClient
     {
-        private readonly IMongoCollection<Models.ExerciseGroup> _collection;
-
         public ExerciseGroupClient(IMongoDatabase database)
+            : base(database, "ExerciseGroup")
         {
-            Ensure.That(database).IsNotNull();
-
-            _collection = database.GetCollection<Models.ExerciseGroup>("ExerciseGroup");
         }
 
-        public IEnumerable<Models.ExerciseGroup> GetExerciseGroups()
-        {
-            return _collection.Find(FilterDefinition<Models.ExerciseGroup>.Empty)
-                .Sort(Builders<Models.ExerciseGroup>.Sort.Ascending("Recorded"))
-                .ToEnumerable();
-        }
-
-        public async Task<Models.ExerciseGroup> InsertAsync(double weight, DateTime recorded, CancellationToken cancellationToken)
+        public async Task<Models.ExerciseGroup> InsertAsync(DateTime recorded, double weight, CancellationToken cancellationToken)
         {
             var exerciseGroup = new Models.ExerciseGroup
             {
@@ -37,12 +26,6 @@ namespace FitnessTracker.MongoDB.ExerciseGroup
             await _collection.InsertOneAsync(exerciseGroup, new InsertOneOptions(), cancellationToken);
 
             return exerciseGroup;
-        }
-
-        public Task DeleteAsync(Guid id, CancellationToken cancellationToken)
-        {
-            var filter = Builders<Models.ExerciseGroup>.Filter.Eq(exerciseGroup => exerciseGroup.Id, id);
-            return _collection.DeleteOneAsync(filter, new DeleteOptions(), cancellationToken);
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using EnsureThat;
+using FitnessTracker.MongoDB.Exercise;
 using FitnessTracker.MongoDB.ExerciseGroup;
 using MongoDB.Driver;
 
@@ -18,8 +19,11 @@ namespace FitnessTracker.MongoDB
             var database = client.GetDatabase(databaseName);
 
             ExerciseGroupClient = new ExerciseGroupClient(database);
+            ExerciseClient = new ExerciseClient(database);
         }
 
         public IExerciseGroupClient ExerciseGroupClient { get; }
+
+        public IExerciseClient ExerciseClient { get; }
     }
 }
