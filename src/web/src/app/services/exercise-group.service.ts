@@ -21,10 +21,10 @@ export class ExerciseGroupService {
     return this._client.get<Array<IExerciseGroup>>(this._baseAddress);
   }
 
-  add(weight: IWeight, recorded: IDateWrapper): Observable<IExerciseGroup> {
+  add(recorded: IDateWrapper, weight: IWeight): Observable<IExerciseGroup> {
 
-    var actualWeight = (weight.stone * 14) + weight.pounds;
     var actualRecorded = recorded.year + '-' + recorded.month + '-' + recorded.day + 'T00:00:00';
+    var actualWeight = (weight.stone * 14) + weight.pounds;
 
     return this._client.put<IExerciseGroup>(this._baseAddress, {
       weight: actualWeight,

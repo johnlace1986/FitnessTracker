@@ -36,12 +36,13 @@ namespace FitnessTracker.API
                 var origins = Configuration.GetSection("CorsOrigins")
                     .AsEnumerable()
                     .Where(origin => !string.IsNullOrWhiteSpace(origin.Value))
-                    .Select(origin => origin.Value);
+                    .Select(origin => origin.Value)
+                    .ToArray();
 
                 options.AddPolicy(_corsPolicyName,
                     builder =>
                     {
-                        builder.WithOrigins(origins.ToArray())
+                        builder.WithOrigins(origins)
                             .AllowAnyHeader()
                             .AllowAnyMethod();
                     });

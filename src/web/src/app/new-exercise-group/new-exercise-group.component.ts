@@ -19,18 +19,13 @@ export class NewExerciseGroupComponent implements OnInit {
   public successMessage: string;
   public isLoading: boolean = false;
 
-  public weight: IWeight;
   public recorded: IDateWrapper;
+  public weight: IWeight;
 
   public recordedMin: number;
   public recordedMax: number;
 
   constructor(private _service: ExerciseGroupService, private _router: Router) {
-
-    this.weight = {
-      stone: 11,
-      pounds: 5
-    }
 
     let now = new Date();
 
@@ -39,6 +34,11 @@ export class NewExerciseGroupComponent implements OnInit {
       month: now.getMonth() + 1,
       day: now.getDate()
     };
+
+    this.weight = {
+      stone: 11,
+      pounds: 5
+    }
 
     this.recordedMax = now.getFullYear();
     this.recordedMin = this.recordedMax - 150;
@@ -60,9 +60,9 @@ export class NewExerciseGroupComponent implements OnInit {
       if (this.form.valid) {
         this.isLoading = true;
 
-        this._service.add(this.weight, this.recorded)          
+        this._service.add(this.recorded, this.weight)          
           .subscribe(
-            result => {
+            () => {
               this._router.navigate([''])
             },
             () => {
