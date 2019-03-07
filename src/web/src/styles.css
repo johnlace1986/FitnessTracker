@@ -1,1 +1,14 @@
-/* You can add global styles to this file, and also import other style files */
+.btn-submit {
+    float: left;
+}
+
+.loading-spinner {
+    float: left;
+    padding: 6px 12px;
+    font-size: 24px
+}
+
+.status {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
