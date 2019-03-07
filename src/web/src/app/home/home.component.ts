@@ -11,10 +11,10 @@ export class HomeComponent implements OnInit {
 
   public groups: Array<IExerciseGroup>;
 
-  constructor(private _client: ExerciseGroupService) { }
+  constructor(private _service: ExerciseGroupService) { }
 
   ngOnInit() {
-    this._client.get()
+    this._service.get()
       .subscribe(groups => {
         this.groups = groups;
       });
