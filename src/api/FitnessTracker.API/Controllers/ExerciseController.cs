@@ -35,10 +35,15 @@ namespace FitnessTracker.API.Controllers
         }
 
         [HttpPost]
-        public Task<Exercise> Post([FromBody] ExerciseDto exercise, CancellationToken cancellationToken)
+        public async Task<IActionResult> Post([FromBody] ExerciseDto exerciseGroup, CancellationToken cancellationToken)
         {
+            if (exerciseGroup == null)
+            {
+                return BadRequest();
+            }
+
             //TODO return CreatedAtRoute
-            return _client.InsertAsync(exercise.Recorded, exercise.TimeTaken, exercise.Distance, exercise.CaloriesBurned, cancellationToken);
+            return Ok(await _client.InsertAsync(exerciseGroup.Recorded, exerciseGroup.TimeTaken, exerciseGroup.Distance, exerciseGroup.CaloriesBurned, cancellationToken));
         }
 
         [HttpDelete("{id}")]
