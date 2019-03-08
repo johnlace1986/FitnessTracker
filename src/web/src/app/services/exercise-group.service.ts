@@ -26,7 +26,7 @@ export class ExerciseGroupService {
     var actualRecorded = recorded.year + '-' + recorded.month + '-' + recorded.day + 'T00:00:00';
     var actualWeight = (weight.stone * 14) + weight.pounds;
 
-    return this._client.put<IExerciseGroup>(this._baseAddress, {
+    return this._client.post<IExerciseGroup>(this._baseAddress, {
       recorded: actualRecorded,
       weight: actualWeight
     });

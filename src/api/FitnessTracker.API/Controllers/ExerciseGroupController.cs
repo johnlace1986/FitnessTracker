@@ -32,16 +32,18 @@ namespace FitnessTracker.API.Controllers
             return _client.Get();
         }
 
-        [HttpPut]
-        public Task<ExerciseGroup> Put([FromBody] ExerciseGroupDto exerciseGroup, CancellationToken cancellationToken)
+        [HttpPost]
+        public Task<ExerciseGroup> Post([FromBody] ExerciseGroupDto exerciseGroup, CancellationToken cancellationToken)
         {
+            //TODO return CreatedAtRoute
             return _client.InsertAsync(exerciseGroup.Recorded, exerciseGroup.Weight, cancellationToken);
         }
 
         [HttpDelete("{id}")]
-        public Task Delete(Guid id, CancellationToken cancellationToken)
+        public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
-            return _client.DeleteAsync(id, cancellationToken);
+            await _client.DeleteAsync(id, cancellationToken);
+            return Ok();
         }
     }
 }

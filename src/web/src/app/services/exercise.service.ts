@@ -27,7 +27,7 @@ export class ExerciseService {
     var actualRecorded = recorded.year + '-' + recorded.month + '-' + recorded.day + 'T00:00:00';
     var actualTimeTaken = this.parseTimeSpan(timeTaken);
 
-    return this._client.put<IExercise>(this._baseAddress, {
+    return this._client.post<IExercise>(this._baseAddress, {
       recorded: actualRecorded,
       timeTaken: actualTimeTaken,
       distance: distance,
