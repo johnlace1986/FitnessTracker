@@ -13,7 +13,7 @@ namespace FitnessTracker.API.Configuration
 {
     public static class CorsConfiguration
     {
-        public static void Configure(IServiceCollection services, IConfiguration configuration)
+        public static void AddCors(this IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<CorsOptions>(configuration.GetSection("CORS"));
 

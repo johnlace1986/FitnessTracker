@@ -1,7 +1,5 @@
-﻿using System.Linq;
-using FitnessTracker.API.Configuration;
+﻿using FitnessTracker.API.Configuration;
 using FitnessTracker.API.Configuration.Options;
-using FitnessTracker.MongoDB;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -25,17 +23,10 @@ namespace FitnessTracker.API
         {
             services.AddOptions();
 
-            CorsConfiguration.Configure(services, Configuration);
+            services.AddCors(Configuration);
+            services.AddMongo(Configuration);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
-            services.AddSingleton<IFitnessTrackerContext>(provider =>
-            {
-                var connectionString = Configuration.GetConnectionString("mongoDB");
-                var databaseName = Configuration["MongoDB:DatabaseName"];
-
-                return new FitnessTrackerContext(connectionString, databaseName);
-            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
