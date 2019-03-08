@@ -17,25 +17,32 @@ namespace FitnessTracker.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors("FitnessTracker.Web")]
-    public class ExerciseController : ControllerBase
+    public class ExerciseController : FitnessTrackerControllerBase<Exercise, IExerciseClient, ExerciseDto>
     {
-        private readonly IExerciseClient _client;
-
         public ExerciseController(IFitnessTrackerContext context)
+            :base(context)
         {
-            Ensure.That(context).IsNotNull();
+        }
 
-            _client = context.ExerciseClient;
+        protected override IExerciseClient GetClient(IFitnessTrackerContext context)
+        {
+            return context.ExerciseClient;
         }
 
         [HttpGet]
-        public Task<IEnumerable<Exercise>> Get(CancellationToken cancellation)
+        public override Task<IEnumerable<Exercise>> Get(CancellationToken cancellationToken)
         {
-            return Task.FromResult(_client.Get());
+            return base.Get(cancellationToken);
+        }
+
+        [HttpDelete("{id}")]
+        public override Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
+        {
+            return base.Delete(id, cancellationToken);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] ExerciseDto exerciseGroup, CancellationToken cancellationToken)
+        public override async Task<IActionResult> Post([FromBody] ExerciseDto exerciseGroup, CancellationToken cancellationToken)
         {
             if (exerciseGroup == null)
             {
@@ -43,14 +50,7 @@ namespace FitnessTracker.API.Controllers
             }
 
             //TODO return CreatedAtRoute
-            return Ok(await _client.InsertAsync(exerciseGroup.Recorded, exerciseGroup.TimeTaken, exerciseGroup.Distance, exerciseGroup.CaloriesBurned, cancellationToken));
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
-        {
-            await _client.DeleteAsync(id, cancellationToken);
-            return Ok();
+            return Ok(await Client.InsertAsync(exerciseGroup.Recorded, exerciseGroup.TimeTaken, exerciseGroup.Distance, exerciseGroup.CaloriesBurned, cancellationToken));
         }
     }
 }

@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace FitnessTracker.MongoDB
 {
-    public interface IClient<out TModel> where TModel : Models.ModelBase
+    public interface IClient<TModel> where TModel : Models.ModelBase
     {
         IEnumerable<TModel> Get();
+
+        Task<TModel> GetById(Guid id, CancellationToken cancellationToken);
 
         Task DeleteAsync(Guid id, CancellationToken cancellationToken);
 

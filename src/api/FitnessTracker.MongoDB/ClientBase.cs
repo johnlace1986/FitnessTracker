@@ -26,10 +26,19 @@ namespace FitnessTracker.MongoDB
                 .ToEnumerable();
         }
 
+        public Task<TModel> GetById(Guid id, CancellationToken cancellationToken)
+        {
+            return _collection.Find(GetByIdFilter(id)).SingleOrDefaultAsync(cancellationToken);
+        }
+
         public Task DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
-            var filter = Builders<TModel>.Filter.Eq(model => model.Id, id);
-            return _collection.DeleteOneAsync(filter, new DeleteOptions(), cancellationToken);
+            return _collection.DeleteOneAsync(GetByIdFilter(id), new DeleteOptions(), cancellationToken);
+        }
+
+        private FilterDefinition<TModel> GetByIdFilter(Guid id)
+        {
+            return Builders<TModel>.Filter.Eq(model => model.Id, id);
         }
     }
 }

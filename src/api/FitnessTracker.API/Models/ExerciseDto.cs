@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace FitnessTracker.API.Models
 {
-    public class ExerciseDto
+    public class ExerciseDto : DtoBase
     {
-        public DateTime Recorded { get; set; }
 
         public TimeSpan TimeTaken { get; set; }
 
