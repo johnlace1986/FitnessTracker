@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
+using FitnessTracker.API.Configuration;
+using FitnessTracker.API.Configuration.Options;
 using FitnessTracker.MongoDB;
-using FitnessTracker.MongoDB.ExerciseGroup;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using MongoDB.Driver;
 
 namespace FitnessTracker.API
 {
@@ -26,27 +20,12 @@ namespace FitnessTracker.API
 
         public IConfiguration Configuration { get; }
 
-        private readonly string _corsPolicyName = "FitnessTracker.Web";
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(options =>
-            {
-                var origins = Configuration.GetSection("CorsOrigins")
-                    .AsEnumerable()
-                    .Where(origin => !string.IsNullOrWhiteSpace(origin.Value))
-                    .Select(origin => origin.Value)
-                    .ToArray();
+            services.AddOptions();
 
-                options.AddPolicy(_corsPolicyName,
-                    builder =>
-                    {
-                        builder.WithOrigins(origins)
-                            .AllowAnyHeader()
-                            .AllowAnyMethod();
-                    });
-            });
+            CorsConfiguration.Configure(services, Configuration);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
@@ -60,7 +39,10 @@ namespace FitnessTracker.API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(
+            IApplicationBuilder app, 
+            IHostingEnvironment env, 
+            IOptions<CorsOptions> corsOptions)
         {
             if (env.IsDevelopment())
             {
@@ -72,7 +54,7 @@ namespace FitnessTracker.API
                 app.UseHsts();
             }
 
-            app.UseCors(_corsPolicyName);
+            CorsConfiguration.UsePolicies(app, corsOptions);
 
             app.UseMvc();
         }
