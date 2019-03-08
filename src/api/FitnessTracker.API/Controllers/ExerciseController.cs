@@ -29,9 +29,9 @@ namespace FitnessTracker.API.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Exercise> Get(CancellationToken cancellation)
+        public Task<IEnumerable<Exercise>> Get(CancellationToken cancellation)
         {
-            return _client.Get();
+            return Task.FromResult(_client.Get());
         }
 
         [HttpPost]
