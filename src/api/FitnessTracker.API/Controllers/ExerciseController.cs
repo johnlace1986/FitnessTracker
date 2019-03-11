@@ -17,7 +17,7 @@ namespace FitnessTracker.API.Controllers
     public class ExerciseController : FitnessTrackerControllerBase<Exercise, ExerciseRequest>
     {
         public ExerciseController(IFitnessTrackerContext context)
-            :base(context)
+            : base(context)
         {
         }
 
@@ -32,6 +32,13 @@ namespace FitnessTracker.API.Controllers
             return base.Get(cancellationToken);
         }
 
+        [HttpGet]
+        [Route("{id}", Name = "GetExerciseById")]
+        public override Task<IActionResult> Get(Guid id, CancellationToken cancellationToken)
+        {
+            return base.Get(id, cancellationToken);
+        }
+
         [HttpDelete("{id}")]
         public override Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
@@ -39,9 +46,9 @@ namespace FitnessTracker.API.Controllers
         }
 
         [HttpPost]
-        public override Task<IActionResult> Post([FromBody] ExerciseRequest request, CancellationToken cancellationToken)
+        public Task<IActionResult> Post([FromBody] ExerciseRequest request, CancellationToken cancellationToken)
         {
-            return base.Post(request, cancellationToken);
+            return base.Post(request, "GetExerciseById", cancellationToken);
         }
     }
 }

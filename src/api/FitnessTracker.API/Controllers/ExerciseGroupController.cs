@@ -32,6 +32,13 @@ namespace FitnessTracker.API.Controllers
             return base.Get(cancellationToken);
         }
 
+        [HttpGet]
+        [Route("{id}", Name = "GetExerciseGroupById")]
+        public override Task<IActionResult> Get(Guid id, CancellationToken cancellationToken)
+        {
+            return base.Get(id, cancellationToken);
+        }
+
         [HttpDelete("{id}")]
         public override Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
@@ -39,9 +46,9 @@ namespace FitnessTracker.API.Controllers
         }
 
         [HttpPost]
-        public override Task<IActionResult> Post([FromBody] ExerciseGroupRequest request, CancellationToken cancellationToken)
+        public Task<IActionResult> Post([FromBody] ExerciseGroupRequest request, CancellationToken cancellationToken)
         {
-            return base.Post(request, cancellationToken);
+            return base.Post(request, "GetExerciseGroupById", cancellationToken);
         }
     }
 }

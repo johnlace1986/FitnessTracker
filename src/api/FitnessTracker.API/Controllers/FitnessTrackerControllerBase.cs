@@ -33,15 +33,27 @@ namespace FitnessTracker.API.Controllers
             return Task.FromResult(Client.Get());
         }
 
-        public virtual async Task<IActionResult> Post(TRequest request, CancellationToken cancellationToken)
+        public virtual async Task<IActionResult> Get(Guid id, CancellationToken cancellationToken)
+        {
+            var model = await Client.GetById(id, cancellationToken);
+
+            if (model == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(model);
+        }
+
+        protected async Task<IActionResult> Post(TRequest request, string routeName, CancellationToken cancellationToken)
         {
             if (request == null)
             {
                 return BadRequest();
             }
 
-            //TODO return CreatedAtRoute
-            return Ok(await Client.InsertAsync(request, cancellationToken));
+            var model = await Client.InsertAsync(request, cancellationToken);
+            return CreatedAtRoute(routeName, new { model.Id }, model);
         }
 
         public virtual async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
