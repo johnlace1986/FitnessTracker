@@ -37,7 +37,7 @@ namespace FitnessTracker.MongoDB
         {
             var model = request.Map();
 
-            await _collection.InsertOneAsync(model, cancellationToken);
+            await _collection.InsertOneAsync(model, new InsertOneOptions(), cancellationToken);
 
             return model;
         }
