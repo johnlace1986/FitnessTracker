@@ -7,7 +7,7 @@ using FitnessTracker.Services;
 
 namespace FitnessTracker.MongoDB
 {
-    public interface IClient<TModel> where TModel : IModelBase
+    public interface IClient<TModel> where TModel : IModel
     {
         IEnumerable<TModel> Get();
 

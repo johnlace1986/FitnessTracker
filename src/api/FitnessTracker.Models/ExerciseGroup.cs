@@ -3,7 +3,7 @@ using System;
 
 namespace FitnessTracker.Models
 {
-    public class ExerciseGroup : IModelBase
+    public class ExerciseGroup : IModel
     {
         public Guid Id { get; set; }
 

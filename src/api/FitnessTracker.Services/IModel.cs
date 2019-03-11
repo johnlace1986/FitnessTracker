@@ -2,7 +2,7 @@
 
 namespace FitnessTracker.Services
 {
-    public interface IModelBase
+    public interface IModel
     {
         Guid Id { get; set; }
 

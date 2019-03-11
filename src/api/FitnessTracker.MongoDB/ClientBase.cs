@@ -9,7 +9,7 @@ using MongoDB.Driver;
 
 namespace FitnessTracker.MongoDB
 {
-    public abstract class ClientBase<TModel> where TModel: IModelBase
+    public abstract class ClientBase<TModel> where TModel: IModel
     {
         protected readonly IMongoCollection<TModel> _collection;
 

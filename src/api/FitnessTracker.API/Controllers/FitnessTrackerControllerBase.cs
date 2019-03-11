@@ -14,7 +14,7 @@ namespace FitnessTracker.API.Controllers
 {
     public abstract class FitnessTrackerControllerBase<TModel, TClient, TDto> 
         : ControllerBase 
-        where TModel : IModelBase
+        where TModel : IModel
         where TClient : IClient<TModel>
         where TDto : DtoBase
     {
