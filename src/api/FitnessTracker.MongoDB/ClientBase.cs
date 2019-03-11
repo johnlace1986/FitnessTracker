@@ -4,11 +4,12 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using EnsureThat;
+using FitnessTracker.Services;
 using MongoDB.Driver;
 
 namespace FitnessTracker.MongoDB
 {
-    public abstract class ClientBase<TModel> where TModel: Models.ModelBase
+    public abstract class ClientBase<TModel> where TModel: IModelBase
     {
         protected readonly IMongoCollection<TModel> _collection;
 

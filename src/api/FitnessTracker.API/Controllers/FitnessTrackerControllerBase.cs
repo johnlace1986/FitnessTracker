@@ -7,13 +7,14 @@ using EnsureThat;
 using FitnessTracker.API.Models;
 using FitnessTracker.Models;
 using FitnessTracker.MongoDB;
+using FitnessTracker.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FitnessTracker.API.Controllers
 {
     public abstract class FitnessTrackerControllerBase<TModel, TClient, TDto> 
         : ControllerBase 
-        where TModel : ModelBase
+        where TModel : IModelBase
         where TClient : IClient<TModel>
         where TDto : DtoBase
     {
