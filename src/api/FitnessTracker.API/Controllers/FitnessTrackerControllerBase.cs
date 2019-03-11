@@ -28,7 +28,8 @@ namespace FitnessTracker.API.Controllers
 
         protected abstract IClient<TModel> GetClient(IFitnessTrackerContext context);
 
-        public virtual Task<IEnumerable<TModel>> Get(CancellationToken cancellationToken)
+        [HttpGet]
+        public Task<IEnumerable<TModel>> Get(CancellationToken cancellationToken)
         {
             return Task.FromResult(Client.Get());
         }
@@ -56,7 +57,8 @@ namespace FitnessTracker.API.Controllers
             return CreatedAtRoute(routeName, new { model.Id }, model);
         }
 
-        public virtual async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
             var model = await Client.GetById(id, cancellationToken);
 
