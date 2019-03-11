@@ -12,13 +12,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FitnessTracker.API.Controllers
 {
-    public abstract class FitnessTrackerControllerBase<TModel, TClient, TDto> 
+    public abstract class FitnessTrackerControllerBase<TModel, TRequest> 
         : ControllerBase 
         where TModel : IModel
-        where TClient : IClient<TModel>
-        where TDto : DtoBase
+        where TRequest : IRequest<TModel>
     {
-        protected TClient Client { get; }
+        private IClient<TModel> Client { get; }
 
         protected FitnessTrackerControllerBase(IFitnessTrackerContext context)
         {
@@ -27,14 +26,23 @@ namespace FitnessTracker.API.Controllers
             Client = GetClient(context);
         }
 
-        protected abstract TClient GetClient(IFitnessTrackerContext context);
+        protected abstract IClient<TModel> GetClient(IFitnessTrackerContext context);
 
         public virtual Task<IEnumerable<TModel>> Get(CancellationToken cancellationToken)
         {
             return Task.FromResult(Client.Get());
         }
 
-        public abstract Task<IActionResult> Post(TDto dto, CancellationToken cancellationToken);
+        public virtual async Task<IActionResult> Post(TRequest request, CancellationToken cancellationToken)
+        {
+            if (request == null)
+            {
+                return BadRequest();
+            }
+
+            //TODO return CreatedAtRoute
+            return Ok(await Client.InsertAsync(request, cancellationToken));
+        }
 
         public virtual async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {

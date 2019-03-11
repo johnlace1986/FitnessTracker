@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using FitnessTracker.MongoDB.Exercise;
-using FitnessTracker.MongoDB.ExerciseGroup;
+﻿using FitnessTracker.Services;
 
 namespace FitnessTracker.MongoDB
 {
     public interface IFitnessTrackerContext
     {
-        IExerciseGroupClient ExerciseGroupClient { get; }
+        IClient<Models.ExerciseGroup> ExerciseGroupClient { get; }
 
-        IExerciseClient ExerciseClient { get; }
+        IClient<Models.Exercise> ExerciseClient { get; }
     }
 }

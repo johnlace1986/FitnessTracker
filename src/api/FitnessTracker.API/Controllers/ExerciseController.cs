@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using EnsureThat;
-using FitnessTracker.API.Models;
+using FitnessTracker.API.Models.Requests;
 using FitnessTracker.Models;
 using FitnessTracker.MongoDB;
-using FitnessTracker.MongoDB.Exercise;
+using FitnessTracker.Services;
 using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FitnessTracker.API.Controllers
@@ -17,14 +14,14 @@ namespace FitnessTracker.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors("FitnessTracker.Web")]
-    public class ExerciseController : FitnessTrackerControllerBase<Exercise, IExerciseClient, ExerciseDto>
+    public class ExerciseController : FitnessTrackerControllerBase<Exercise, ExerciseRequest>
     {
         public ExerciseController(IFitnessTrackerContext context)
             :base(context)
         {
         }
 
-        protected override IExerciseClient GetClient(IFitnessTrackerContext context)
+        protected override IClient<Exercise> GetClient(IFitnessTrackerContext context)
         {
             return context.ExerciseClient;
         }
@@ -42,15 +39,9 @@ namespace FitnessTracker.API.Controllers
         }
 
         [HttpPost]
-        public override async Task<IActionResult> Post([FromBody] ExerciseDto exerciseGroup, CancellationToken cancellationToken)
+        public override Task<IActionResult> Post([FromBody] ExerciseRequest request, CancellationToken cancellationToken)
         {
-            if (exerciseGroup == null)
-            {
-                return BadRequest();
-            }
-
-            //TODO return CreatedAtRoute
-            return Ok(await Client.InsertAsync(exerciseGroup.Recorded, exerciseGroup.TimeTaken, exerciseGroup.Distance, exerciseGroup.CaloriesBurned, cancellationToken));
+            return base.Post(request, cancellationToken);
         }
     }
 }

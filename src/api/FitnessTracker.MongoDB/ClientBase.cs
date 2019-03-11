@@ -9,7 +9,8 @@ using MongoDB.Driver;
 
 namespace FitnessTracker.MongoDB
 {
-    public abstract class ClientBase<TModel> where TModel: IModel
+    public abstract class ClientBase<TModel> : IClient<TModel>
+        where TModel: IModel
     {
         protected readonly IMongoCollection<TModel> _collection;
 
@@ -30,6 +31,15 @@ namespace FitnessTracker.MongoDB
         public Task<TModel> GetById(Guid id, CancellationToken cancellationToken)
         {
             return _collection.Find(GetByIdFilter(id)).SingleOrDefaultAsync(cancellationToken);
+        }
+
+        public async Task<TModel> InsertAsync(IRequest<TModel> request, CancellationToken cancellationToken)
+        {
+            var model = request.Map();
+
+            await _collection.InsertOneAsync(model, cancellationToken);
+
+            return model;
         }
 
         public Task DeleteAsync(Guid id, CancellationToken cancellationToken)

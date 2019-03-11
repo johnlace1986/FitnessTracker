@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using FitnessTracker.Services;
 
-namespace FitnessTracker.MongoDB
+namespace FitnessTracker.Services
 {
     public interface IClient<TModel> where TModel : IModel
     {
         IEnumerable<TModel> Get();
 
         Task<TModel> GetById(Guid id, CancellationToken cancellationToken);
+
+        Task<TModel> InsertAsync(IRequest<TModel> request, CancellationToken cancellationToken);
 
         Task DeleteAsync(Guid id, CancellationToken cancellationToken);
 
