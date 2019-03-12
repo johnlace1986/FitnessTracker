@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { NewExerciseGroupComponent } from './new-exercise-group/new-exercise-group.component';
 import { NewExerciseComponent } from './new-exercise/new-exercise.component';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { NewExerciseComponent } from './new-exercise/new-exercise.component';
     BrowserModule,
     HttpClientModule,
     FormsModule,
+    SharedModule,
     RouterModule.forRoot([
       { path: 'group', component: NewExerciseGroupComponent },
       { path: 'exercise', component: NewExerciseComponent },
