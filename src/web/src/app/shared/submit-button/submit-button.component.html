@@ -1,0 +1,3 @@
+<button *ngIf="!isSubmitting" type="submit" class="btn btn-primary btn-submit">Submit</button>
+<button *ngIf="isSubmitting" type="button" class="btn btn-warning btn-submit" (click)="onCancel()">Cancel</button>
+<i *ngIf="isSubmitting" class="loading-spinner fa fa-spinner fa-spin"></i>

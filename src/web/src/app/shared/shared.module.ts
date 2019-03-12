@@ -3,17 +3,20 @@ import { CommonModule } from '@angular/common';
 
 import { DatePickerComponent } from './date-picker/date-picker.component';
 import { FormsModule } from '@angular/forms';
+import { SubmitButtonComponent } from './submit-button/submit-button.component';
 
 @NgModule({
   declarations: [
-    DatePickerComponent
+    DatePickerComponent,
+    SubmitButtonComponent
   ],
   imports: [
     CommonModule,
     FormsModule
   ],
   exports: [
-    DatePickerComponent
+    DatePickerComponent,
+    SubmitButtonComponent
   ]
 })
 export class SharedModule { }

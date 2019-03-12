@@ -19,9 +19,10 @@
     </div>
 
     <div class="clearfix">
-      <button *ngIf="!isLoading" type="submit" class="btn btn-primary btn-submit">Submit</button>
-      <button *ngIf="isLoading" type="button" class="btn btn-warning btn-submit" (click)="onCancel()">Cancel</button>
-      <i *ngIf="isLoading" class="loading-spinner fa fa-spinner fa-spin"></i>
+      <ft-submit-button
+        [isSubmitting]="isLoading"
+        (cancel)="onCancel()">
+      </ft-submit-button>
     </div>
   </form>
 
