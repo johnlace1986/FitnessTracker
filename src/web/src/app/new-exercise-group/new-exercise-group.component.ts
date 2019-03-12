@@ -1,11 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
-import { IDateWrapper } from '../models/date-wrapper';
+import { BaseComponent } from '../models/base.component';
+import { IExerciseGroup } from '../models/exercise-group';
 import { IWeight } from '../models/weight';
 import { ExerciseGroupService } from '../services/exercise-group.service';
-import { Router } from '@angular/router';
-import { BaseComponent } from '../models/base.component';
 
 @Component({
   selector: 'ft-new-exercise-group',
@@ -27,16 +26,10 @@ export class NewExerciseGroupComponent extends BaseComponent {
   }
 
   onSubmit() {
-    this.submit(() => {
-      return this._service.add(this.recorded, this.weight)          
-        .subscribe(
-          () => {
-            this.navigateTo('');
-          },
-          () => {
-            this.errorMessage = 'Unable to process application. An error occurred on the server.';
-            this.isLoading = false;
-          });
-    });
+    this.submit<IExerciseGroup>(
+      this._service.add(this.recorded, this.weight),
+      () => {
+        this.navigateTo('');
+      });
   }
 }

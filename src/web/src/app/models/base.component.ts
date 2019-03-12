@@ -2,7 +2,7 @@ import { OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 
 import { IDateWrapper } from './date-wrapper';
 
@@ -42,7 +42,7 @@ export abstract class BaseComponent implements OnInit {
         this._router.navigate([routeName]);
     }
 
-    protected submit(work) {
+    protected submit<T>(work: Observable<T>, onSuccess) {
         this.doWorkLogError(() => {
           this.errorMessage = '';
     
@@ -54,9 +54,15 @@ export abstract class BaseComponent implements OnInit {
           if (this.form.valid) {
             this.isLoading = true;
 
-            this._request = work();
-
-            this.isLoading = false;
+            this._request = work
+              .subscribe(() => {
+                onSuccess();
+                this.isLoading = false;
+              },
+              () => {
+                this.errorMessage = 'Unable to process application. An error occurred on the server.';
+                this.isLoading = false;
+              });
         }
         else {
           this.errorMessage = 'Please ensure all fields are completed correctly.'

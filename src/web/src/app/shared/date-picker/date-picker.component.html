@@ -1,6 +1,6 @@
 <div class="input-group">
-  <input name="day" type="number" class="form-control" [(ngModel)]="value.day" required min="1" max="31">
-  <select name="month" class="form-control" [(ngModel)]="value.month" required>
+  <input name="day" type="number" class="form-control" [(ngModel)]="value.day" required min="1" max="31" [disabled]="disabled">
+  <select name="month" class="form-control" [(ngModel)]="value.month" required [disabled]="disabled">
     <option [ngValue]="1">January</option>
     <option [ngValue]="2">February</option>
     <option [ngValue]="3">March</option>
@@ -14,5 +14,5 @@
     <option [ngValue]="11">November</option>
     <option [ngValue]="12">December</option>
   </select>
-  <input name="year" type="number" class="form-control" [(ngModel)]="value.year" required [min]="minYears" [max]="maxYears">
+  <input name="year" type="number" class="form-control" [(ngModel)]="value.year" required [disabled]="disabled" [min]="minYears" [max]="maxYears">
 </div>

@@ -1,8 +1,10 @@
-import { Component, } from '@angular/core';
-import { BaseComponent } from '../models/base.component';
-import { ExerciseService } from '../services/exercise.service';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+
+import { BaseComponent } from '../models/base.component';
+import { IExercise } from '../models/exercise';
 import { ITimeSpanWrapper } from '../models/time-span-wrapper';
+import { ExerciseService } from '../services/exercise.service';
 
 @Component({
   selector: 'ft-new-exercise',
@@ -27,16 +29,10 @@ export class NewExerciseComponent extends BaseComponent {
   }
 
   onSubmit() {
-    this.submit(() => {
-      return this._service.add(this.recorded, this.timeTaken, this.distance, this.caloriesBurned)          
-        .subscribe(
-          () => {
-            this.navigateTo('');
-          },
-          () => {
-            this.errorMessage = 'Unable to process application. An error occurred on the server.';
-            this.isLoading = false;
-          });
-    });
+    this.submit<IExercise>(
+      this._service.add(this.recorded, this.timeTaken, this.distance, this.caloriesBurned),
+      () => {
+        this.navigateTo('');
+      });
   }
 }

@@ -17,6 +17,9 @@ export class DatePickerComponent implements OnInit {
   @Input()
   public maxYears: number;
 
+  @Input()
+  public disabled: Boolean = false;
+
   constructor() { }
 
   ngOnInit() {
