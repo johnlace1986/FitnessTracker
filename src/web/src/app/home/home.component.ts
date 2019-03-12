@@ -9,14 +9,20 @@ import { IExerciseGroup } from '../models/exercise-group';
 })
 export class HomeComponent implements OnInit {
 
+  public errorMessage: string;
   public groups: Array<IExerciseGroup>;
 
   constructor(private _service: ExerciseGroupService) { }
 
   ngOnInit() {
+    this.errorMessage = '';
+
     this._service.get()
       .subscribe(groups => {
         this.groups = groups;
+      },
+      () => {
+        this.errorMessage = 'Unable to load data. An error occurred on the server.'
       });
   }
 }

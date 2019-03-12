@@ -1,1 +1,5 @@
+<div class="status col-md-12">
+    <div *ngIf="errorMessage && errorMessage.length > 0" class="alert alert-danger">{{errorMessage}}</div>
+</div>
+
 <p *ngFor="let group of groups">{{group.id}}</p>

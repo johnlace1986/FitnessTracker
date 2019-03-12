@@ -31,8 +31,7 @@ export class NewExerciseComponent extends BaseComponent {
   onSubmit() {
     this.submit<IExercise>(
       this._service.add(this.recorded, this.timeTaken, this.distance, this.caloriesBurned),
-      () => {
-        this.navigateTo('');
-      });
+      this.navigateTo(''),
+      this.errorMessage = 'Unable to submit exercise. An error occurred on the server.');
   }
 }

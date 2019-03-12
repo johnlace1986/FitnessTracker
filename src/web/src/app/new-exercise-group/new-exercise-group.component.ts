@@ -28,8 +28,7 @@ export class NewExerciseGroupComponent extends BaseComponent {
   onSubmit() {
     this.submit<IExerciseGroup>(
       this._service.add(this.recorded, this.weight),
-      () => {
-        this.navigateTo('');
-      });
+      this.navigateTo(''),
+      this.errorMessage = 'Unable to submit exercise group. An error occurred on the server.');
   }
 }

@@ -42,7 +42,7 @@ export abstract class BaseComponent implements OnInit {
         this._router.navigate([routeName]);
     }
 
-    protected submit<T>(work: Observable<T>, onSuccess) {
+    protected submit<T>(work: Observable<T>, onSuccess, onError) {
         this.doWorkLogError(() => {
           this.errorMessage = '';
     
@@ -60,7 +60,7 @@ export abstract class BaseComponent implements OnInit {
                 this.isLoading = false;
               },
               () => {
-                this.errorMessage = 'Unable to process application. An error occurred on the server.';
+                onError();
                 this.isLoading = false;
               });
         }
