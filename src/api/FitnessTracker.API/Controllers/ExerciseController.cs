@@ -1,13 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using FitnessTracker.API.Models.Requests;
+﻿using FitnessTracker.API.Models.Requests;
 using FitnessTracker.Models;
 using FitnessTracker.MongoDB;
 using FitnessTracker.Services;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using FitnessTracker.API.Models.Results;
 
 namespace FitnessTracker.API.Controllers
 {
@@ -24,6 +26,16 @@ namespace FitnessTracker.API.Controllers
         protected override IClient<Exercise> GetClient(IFitnessTrackerContext context)
         {
             return context.ExerciseClient;
+        }
+
+        protected override IEnumerable<IResult> MapToResults(IEnumerable<Exercise> models)
+        {
+            return models;
+        }
+
+        protected override IResult MapToResult(Exercise model)
+        {
+            return model;
         }
 
         [HttpGet]
