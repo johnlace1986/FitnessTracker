@@ -28,17 +28,11 @@ namespace FitnessTracker.API.Controllers
 
         protected abstract IClient<TModel> GetClient(IFitnessTrackerContext context);
 
-        protected abstract IEnumerable<IResult> MapToResults(IEnumerable<TModel> models);
-
         [HttpGet]
-        public IActionResult Get()
+        public Task<IEnumerable<TModel>> Get(CancellationToken cancellationToken)
         {
-            var models = Client.Get();
-            var mapped = MapToResults(models);
-            return Ok(mapped);
+            return Task.FromResult(Client.Get());
         }
-
-        protected abstract IResult MapToResult(TModel model);
 
         public virtual async Task<IActionResult> Get(Guid id, CancellationToken cancellationToken)
         {
@@ -49,8 +43,7 @@ namespace FitnessTracker.API.Controllers
                 return NotFound();
             }
 
-            var mapped = MapToResult(model);
-            return Ok(mapped);
+            return Ok(model);
         }
 
         protected async Task<IActionResult> Post(TRequest request, string routeName, CancellationToken cancellationToken)

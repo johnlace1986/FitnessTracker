@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using EnsureThat;
 using FitnessTracker.API.Models.Requests;
-using FitnessTracker.API.Services;
 using FitnessTracker.Models;
 using FitnessTracker.MongoDB;
 using FitnessTracker.Services;
@@ -18,31 +16,14 @@ namespace FitnessTracker.API.Controllers
     [EnableCors("FitnessTracker.Web")]
     public class ExerciseGroupController : FitnessTrackerControllerBase<ExerciseGroup, ExerciseGroupRequest>
     {
-        private readonly IExerciseGroupExercisesService _exerciseGroupExercisesService;
-
-        public ExerciseGroupController(
-            IFitnessTrackerContext context,
-            IExerciseGroupExercisesService exerciseGroupExercisesService)
+        public ExerciseGroupController(IFitnessTrackerContext context)
             : base(context)
         {
-            Ensure.That(exerciseGroupExercisesService).IsNotNull();
-
-            _exerciseGroupExercisesService = exerciseGroupExercisesService;
         }
 
         protected override IClient<ExerciseGroup> GetClient(IFitnessTrackerContext context)
         {
             return context.ExerciseGroupClient;
-        }
-
-        protected override IEnumerable<IResult> MapToResults(IEnumerable<ExerciseGroup> models)
-        {
-            return _exerciseGroupExercisesService.Map(models);
-        }
-
-        protected override IResult MapToResult(ExerciseGroup model)
-        {
-            return _exerciseGroupExercisesService.Map(model);
         }
 
         [HttpGet]

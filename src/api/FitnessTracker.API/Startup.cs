@@ -1,6 +1,5 @@
 ﻿using FitnessTracker.API.Configuration;
 using FitnessTracker.API.Configuration.Options;
-using FitnessTracker.API.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -26,8 +25,6 @@ namespace FitnessTracker.API
 
             services.AddCors(Configuration);
             services.AddMongo(Configuration);
-
-            services.AddSingleton<IExerciseGroupExercisesService, ExerciseGroupExercisesService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

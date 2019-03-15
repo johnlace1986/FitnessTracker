@@ -5,7 +5,7 @@ using FitnessTracker.Services;
 
 namespace FitnessTracker.Models
 {
-    public class Exercise : IModel, IResult
+    public class Exercise : IModel
     {
         public Guid Id { get; set; }
 
