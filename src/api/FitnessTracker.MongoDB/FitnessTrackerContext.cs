@@ -20,8 +20,8 @@ namespace FitnessTracker.MongoDB
             ExerciseClient = new ExerciseClient(database);
         }
 
-        public IClient<Models.ExerciseGroup> ExerciseGroupClient { get; }
+        public IExerciseGroupClient ExerciseGroupClient { get; }
 
-        public IClient<Models.Exercise> ExerciseClient { get; }
+        public IExerciseClient ExerciseClient { get; }
     }
 }

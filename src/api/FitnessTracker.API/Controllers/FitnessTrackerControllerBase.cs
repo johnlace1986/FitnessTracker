@@ -12,38 +12,30 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FitnessTracker.API.Controllers
 {
-    public abstract class FitnessTrackerControllerBase<TModel, TRequest> 
+    public abstract class FitnessTrackerControllerBase<TModel, TClient, TRequest> 
         : ControllerBase 
         where TModel : IModel
+        where TClient : IClient<TModel>
         where TRequest : IRequest<TModel>
     {
-        private IClient<TModel> Client { get; }
+        protected IFitnessTrackerContext Context { get; }
+
+        protected TClient Client { get; }
 
         protected FitnessTrackerControllerBase(IFitnessTrackerContext context)
         {
             Ensure.That(context).IsNotNull();
 
+            Context = context;
             Client = GetClient(context);
         }
 
-        protected abstract IClient<TModel> GetClient(IFitnessTrackerContext context);
+        protected abstract TClient GetClient(IFitnessTrackerContext context);
 
         [HttpGet]
         public Task<IEnumerable<TModel>> Get(CancellationToken cancellationToken)
         {
             return Task.FromResult(Client.Get());
-        }
-
-        public virtual async Task<IActionResult> Get(Guid id, CancellationToken cancellationToken)
-        {
-            var model = await Client.GetById(id, cancellationToken);
-
-            if (model == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(model);
         }
 
         protected async Task<IActionResult> Post(TRequest request, string routeName, CancellationToken cancellationToken)
@@ -69,6 +61,16 @@ namespace FitnessTracker.API.Controllers
 
             await Client.DeleteAsync(id, cancellationToken);
             return Ok();
+        }
+
+        protected IActionResult EnsureModelNotNull(TModel model)
+        {
+            if (model == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(model);
         }
     }
 }

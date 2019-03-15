@@ -1,27 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using MongoDB.Driver;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using EnsureThat;
-using FitnessTracker.Services;
-using MongoDB.Driver;
 
 namespace FitnessTracker.MongoDB.ExerciseGroup
 {
-    public class ExerciseGroupClient : ClientBase<Models.ExerciseGroup>, IClient<Models.ExerciseGroup>
+    public class ExerciseGroupClient : ClientBase<Models.ExerciseGroup>, IExerciseGroupClient
     {
         public ExerciseGroupClient(IMongoDatabase database)
             : base(database, "ExerciseGroup")
         {
         }
 
-        public async Task<Models.ExerciseGroup> InsertAsync(IRequest<Models.ExerciseGroup> request, CancellationToken cancellationToken)
+        public Task<Models.ExerciseGroup> GetPreviousExerciseGroupById(DateTime recorded, CancellationToken cancellationToken)
         {
-            var model = request.Map();
+            var previous = _collection
+                .Aggregate()
+                .Match(Builders<Models.ExerciseGroup>.Filter.Lt(group => group.Recorded, recorded))
+                .Sort(Builders<Models.ExerciseGroup>.Sort.Descending(group => group.Recorded))
+                .Limit(1)
+                .SingleOrDefault();
 
-            await _collection.InsertOneAsync(model, new InsertOneOptions(), cancellationToken);
-
-            return model;
+            return Task.FromResult(previous);
         }
     }
 }

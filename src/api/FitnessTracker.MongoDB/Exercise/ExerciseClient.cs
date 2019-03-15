@@ -1,28 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-using EnsureThat;
-using FitnessTracker.Services;
 using MongoDB.Driver;
 
 namespace FitnessTracker.MongoDB.Exercise
 {
-    public class ExerciseClient : ClientBase<Models.Exercise>
+    public class ExerciseClient : ClientBase<Models.Exercise>, IExerciseClient
     {
         public ExerciseClient(IMongoDatabase database)
             : base(database, "Exercise")
         {
         }
 
-        public async Task<Models.Exercise> InsertAsync(IRequest<Models.Exercise> request, CancellationToken cancellationToken)
+        public Task<IEnumerable<Models.Exercise>> GetExercisesInDateRange(DateTime from, DateTime to)
         {
-            var model = request.Map();
+            var builder = Builders<Models.Exercise>.Filter;
+            var filter = builder.Gt(group => group.Recorded, from) & builder.Lt(group => group.Recorded, to);
 
-            await _collection.InsertOneAsync(model, new InsertOneOptions(), cancellationToken);
+            var exercises = _collection
+                .Aggregate()
+                .Sort(Builders<Models.Exercise>.Sort.Ascending(group => group.Recorded))
+                .Match(filter)
+                .ToEnumerable();
 
-            return model;
+            return Task.FromResult(exercises);
         }
     }
 }
