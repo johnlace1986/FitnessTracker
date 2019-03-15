@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using EnsureThat;
 using FitnessTracker.API.Models.Requests;
 using FitnessTracker.API.Models.Results;
+using FitnessTracker.API.Services;
 using FitnessTracker.Models;
 using FitnessTracker.MongoDB;
 using FitnessTracker.MongoDB.ExerciseGroup;
@@ -16,14 +18,21 @@ namespace FitnessTracker.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors("FitnessTracker.Web")]
-    public class ExerciseGroupController : FitnessTrackerControllerBase<ExerciseGroup, IExerciseGroupClient, ExerciseGroupRequest>
+    public class ExerciseGroupController : FitnessTrackerControllerBase<ExerciseGroup, ExerciseGroupRequest>
     {
-        public ExerciseGroupController(IFitnessTrackerContext context)
+        private readonly IExerciseGroupService _service;
+
+        public ExerciseGroupController(
+            IFitnessTrackerContext context,
+            IExerciseGroupService service)
             : base(context)
         {
+            Ensure.That(service).IsNotNull();
+
+            _service = service;
         }
 
-        protected override IExerciseGroupClient GetClient(IFitnessTrackerContext context)
+        protected override IClient<ExerciseGroup> GetClient(IFitnessTrackerContext context)
         {
             return context.ExerciseGroupClient;
         }
@@ -39,17 +48,7 @@ namespace FitnessTracker.API.Controllers
                 return NotFound();
             }
 
-            var previous = await Client.GetPreviousExerciseGroupById(group.Recorded, cancellationToken);
-
-            var exercises = await Context.ExerciseClient.GetExercisesInDateRange(previous?.Recorded ?? DateTime.MinValue, group.Recorded);
-
-            return Ok(new ExerciseGroupResult
-            {
-                Id = group.Id,
-                Recorded = group.Recorded,
-                Weight = group.Weight,
-                Exercises = exercises
-            });
+            return Ok(await _service.Map(group, cancellationToken));
         }
 
         [HttpPost]

@@ -1,36 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using EnsureThat;
-using FitnessTracker.API.Models;
-using FitnessTracker.Models;
+﻿using EnsureThat;
 using FitnessTracker.MongoDB;
 using FitnessTracker.Services;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace FitnessTracker.API.Controllers
 {
-    public abstract class FitnessTrackerControllerBase<TModel, TClient, TRequest> 
+    public abstract class FitnessTrackerControllerBase<TModel, TRequest> 
         : ControllerBase 
         where TModel : IModel
-        where TClient : IClient<TModel>
         where TRequest : IRequest<TModel>
     {
-        protected IFitnessTrackerContext Context { get; }
-
-        protected TClient Client { get; }
+        protected IClient<TModel> Client { get; }
 
         protected FitnessTrackerControllerBase(IFitnessTrackerContext context)
         {
             Ensure.That(context).IsNotNull();
 
-            Context = context;
             Client = GetClient(context);
         }
 
-        protected abstract TClient GetClient(IFitnessTrackerContext context);
+        protected abstract IClient<TModel> GetClient(IFitnessTrackerContext context);
 
         [HttpGet]
         public Task<IEnumerable<TModel>> Get(CancellationToken cancellationToken)

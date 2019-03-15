@@ -15,14 +15,14 @@ namespace FitnessTracker.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors("FitnessTracker.Web")]
-    public class ExerciseController : FitnessTrackerControllerBase<Exercise, IExerciseClient, ExerciseRequest>
+    public class ExerciseController : FitnessTrackerControllerBase<Exercise, ExerciseRequest>
     {
         public ExerciseController(IFitnessTrackerContext context)
             : base(context)
         {
         }
 
-        protected override IExerciseClient GetClient(IFitnessTrackerContext context)
+        protected override IClient<Exercise> GetClient(IFitnessTrackerContext context)
         {
             return context.ExerciseClient;
         }
