@@ -23,7 +23,7 @@ namespace FitnessTracker.MongoDB.ExerciseGroup
                 new BsonDocument {{"$limit", 1}},
             };
 
-            var cursor = await _collection.AggregateAsync<Models.ExerciseGroup>(pipline.ToList(), new AggregateOptions(), cancellationToken).ConfigureAwait(false);
+            var cursor = await Collection.AggregateAsync<Models.ExerciseGroup>(pipline.ToList(), new AggregateOptions(), cancellationToken).ConfigureAwait(false);
 
             return await cursor.SingleOrDefaultAsync(cancellationToken).ConfigureAwait(false);
         }

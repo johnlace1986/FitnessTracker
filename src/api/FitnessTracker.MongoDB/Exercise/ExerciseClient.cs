@@ -27,7 +27,7 @@ namespace FitnessTracker.MongoDB.Exercise
                 }}}}}
             };
 
-            var cursor = await _collection.AggregateAsync<Models.Exercise>(pipeline.ToList(), new AggregateOptions(), cancellationToken).ConfigureAwait(false);
+            var cursor = await Collection.AggregateAsync<Models.Exercise>(pipeline.ToList(), new AggregateOptions(), cancellationToken).ConfigureAwait(false);
             var result = await cursor.ToListAsync(cancellationToken).ConfigureAwait(false);
 
             return result;
