@@ -28,7 +28,7 @@ namespace FitnessTracker.API.Controllers
         [HttpGet]
         public virtual async Task<IActionResult> Get(CancellationToken cancellationToken)
         {
-            var models = await Client.GetAsync(cancellationToken);
+            var models = await Client.GetAsync(cancellationToken).ConfigureAwait(false);
             return Ok(models);
         }
 
