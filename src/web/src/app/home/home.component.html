@@ -2,10 +2,9 @@
     <div *ngIf="errorMessage && errorMessage.length > 0" class="alert alert-danger">{{errorMessage}}</div>
 </div>
 
-<div class="row" *ngFor="let group of groups">
-    <div class="col">{{group.recorded}}</div>
-    <div class="col">{{group.weight}}</div>
-    <div class="col">{{group.exerciseCount}}</div>
-</div>
+<ft-exercise-group
+    *ngFor="let group of groups"
+    [group]="group">
+</ft-exercise-group>
 
 <button *ngIf="canShowMore" class="btn btn-primary" (click)="showMore()">Show More</button>
