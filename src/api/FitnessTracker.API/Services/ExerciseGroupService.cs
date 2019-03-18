@@ -23,7 +23,7 @@ namespace FitnessTracker.API.Services
         {
             var previous = await _context.ExerciseGroupClient.GetPreviousExerciseGroupById(group.Recorded, cancellationToken);
 
-            var exercises = await _context.ExerciseClient.GetExercisesInDateRange(previous?.Recorded ?? DateTime.MinValue, group.Recorded);
+            var exercises = await _context.ExerciseClient.GetExercisesInDateRange(previous?.Recorded ?? DateTime.MinValue, group.Recorded, cancellationToken);
 
             return new ExerciseGroupResult
             {

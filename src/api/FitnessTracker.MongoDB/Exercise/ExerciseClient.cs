@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace FitnessTracker.MongoDB.Exercise
@@ -12,18 +15,22 @@ namespace FitnessTracker.MongoDB.Exercise
         {
         }
 
-        public Task<IEnumerable<Models.Exercise>> GetExercisesInDateRange(DateTime from, DateTime to)
+        public async Task<IEnumerable<Models.Exercise>> GetExercisesInDateRange(DateTime from, DateTime to, CancellationToken cancellationToken)
         {
-            var builder = Builders<Models.Exercise>.Filter;
-            var filter = builder.Gt(group => group.Recorded, from) & builder.Lt(group => group.Recorded, to);
+            var pipeline = new[]
+            {
+                new BsonDocument {{"$sort", new BsonDocument {{"Recorded", 1}}}},
+                new BsonDocument {{"$match", new BsonDocument{{"$and", new BsonArray
+                {
+                    new BsonDocument{{"Recorded", new BsonDocument{{"$gt", from}}}},
+                    new BsonDocument{{"Recorded", new BsonDocument{{"$lt", to}}}}
+                }}}}}
+            };
 
-            var exercises = _collection
-                .Aggregate()
-                .Sort(Builders<Models.Exercise>.Sort.Ascending(group => group.Recorded))
-                .Match(filter)
-                .ToEnumerable();
+            var cursor = await _collection.AggregateAsync<Models.Exercise>(pipeline.ToList(), new AggregateOptions(), cancellationToken);
+            var result = await cursor.ToListAsync(cancellationToken);
 
-            return Task.FromResult(exercises);
+            return result;
         }
     }
 }
