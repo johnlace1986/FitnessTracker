@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+
 import { IExerciseGroup } from '../models/exercise-group';
 import { IDateWrapper } from '../models/date-wrapper';
 import { IWeight } from '../models/weight';
+import { IExerciseGroupSummary } from '../models/exercise-group-summary';
 
 
 @Injectable({
@@ -17,7 +18,7 @@ export class ExerciseGroupService {
   constructor(private _client: HttpClient) {
   }
 
-  get(offset: number): Observable<Array<IExerciseGroup>> {
+  get(offset: number): Observable<Array<IExerciseGroupSummary>> {
 
     var url = `${this._baseAddress}?limit=10`;
 
@@ -25,7 +26,7 @@ export class ExerciseGroupService {
       url += `&offset=${offset}`;
     }
 
-    return this._client.get<Array<IExerciseGroup>>(url);
+    return this._client.get<Array<IExerciseGroupSummary>>(url);
   }
 
   add(recorded: IDateWrapper, weight: IWeight): Observable<IExerciseGroup> {
