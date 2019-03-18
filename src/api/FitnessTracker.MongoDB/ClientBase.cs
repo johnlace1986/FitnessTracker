@@ -20,11 +20,13 @@ namespace FitnessTracker.MongoDB
             Collection = database.GetCollection<TModel>(collectionName);
         }
 
-        public async Task<IEnumerable<TModel>> GetAsync(CancellationToken cancellationToken)
+        public async Task<IEnumerable<TModel>> GetAsync(int? limit, int? offset, CancellationToken cancellationToken)
         {
             var options = new FindOptions<TModel>
             {
-                Sort = Builders<TModel>.Sort.Ascending("Recorded")
+                Sort = Builders<TModel>.Sort.Ascending("Recorded"),
+                Limit = limit,
+                Skip = offset
             };
 
             var cursor = await Collection.FindAsync(FilterDefinition<TModel>.Empty, options, cancellationToken).ConfigureAwait(false);

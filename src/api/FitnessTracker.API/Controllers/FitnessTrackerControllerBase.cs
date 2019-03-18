@@ -26,9 +26,9 @@ namespace FitnessTracker.API.Controllers
         protected abstract IClient<TModel> GetClient(IFitnessTrackerContext context);
 
         [HttpGet]
-        public virtual async Task<IActionResult> Get(CancellationToken cancellationToken)
+        public virtual async Task<IActionResult> Get(int? limit, int? offset, CancellationToken cancellationToken)
         {
-            var models = await Client.GetAsync(cancellationToken).ConfigureAwait(false);
+            var models = await Client.GetAsync(limit, offset, cancellationToken).ConfigureAwait(false);
             return Ok(models);
         }
 

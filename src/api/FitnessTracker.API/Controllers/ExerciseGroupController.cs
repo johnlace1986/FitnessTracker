@@ -36,9 +36,9 @@ namespace FitnessTracker.API.Controllers
             return context.ExerciseGroupClient;
         }
 
-        public override async Task<IActionResult> Get(CancellationToken cancellationToken)
+        public override async Task<IActionResult> Get(int? limit, int? offset, CancellationToken cancellationToken)
         {
-            var groups = await Client.GetAsync(cancellationToken).ConfigureAwait(false);
+            var groups = await Client.GetAsync(limit, offset, cancellationToken).ConfigureAwait(false);
 
             var mapped = await Task.WhenAll(groups.Select(async (group) =>
             {
