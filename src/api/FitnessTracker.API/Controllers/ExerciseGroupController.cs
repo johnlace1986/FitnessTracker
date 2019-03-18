@@ -44,7 +44,7 @@ namespace FitnessTracker.API.Controllers
             {
                 var exercises = await _service.GetExercisesAsync(group, cancellationToken).ConfigureAwait(false);
 
-                return new ExerciseGroupSummary
+                return new
                 {
                     Id = group.Id,
                     Recorded = group.Recorded,
