@@ -10,16 +10,33 @@ import { IExerciseGroup } from '../models/exercise-group';
 export class HomeComponent implements OnInit {
 
   public errorMessage: string;
-  public groups: Array<IExerciseGroup>;
+  public groups: Array<IExerciseGroup> = new Array<IExerciseGroup>();
+  public canShowMore: Boolean = true;
+
+  private _offset: number = 0;
 
   constructor(private _service: ExerciseGroupService) { }
 
   ngOnInit() {
+    this.showMore();
+  }
+
+  showMore() {
     this.errorMessage = '';
 
-    this._service.get()
+    this._service.get(this._offset)
       .subscribe(groups => {
-        this.groups = groups;
+
+        if (groups.length == 0){
+          this.canShowMore = false;
+        }
+        else {
+          groups.forEach((group) => {
+            this.groups.push(group);
+          });
+
+          this._offset += groups.length;
+        }
       },
       () => {
         this.errorMessage = 'Unable to load data. An error occurred on the server.'

@@ -3,3 +3,5 @@
 </div>
 
 <p *ngFor="let group of groups">{{group.id}}</p>
+
+<button *ngIf="canShowMore" class="btn btn-primary" (click)="showMore()">Show More</button>

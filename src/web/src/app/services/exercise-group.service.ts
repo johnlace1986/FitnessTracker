@@ -12,13 +12,20 @@ import { IWeight } from '../models/weight';
 })
 export class ExerciseGroupService {
 
-  private _baseAddress: string = 'http://localhost:5000/api/exercisegroup';
+  private _baseAddress: string = 'http://localhost:5000/api/exercisegroup/';
 
   constructor(private _client: HttpClient) {
   }
 
-  get(): Observable<Array<IExerciseGroup>> {
-    return this._client.get<Array<IExerciseGroup>>(this._baseAddress);
+  get(offset: number): Observable<Array<IExerciseGroup>> {
+
+    var url = `${this._baseAddress}?limit=10`;
+
+    if (offset) {
+      url += `&offset=${offset}`;
+    }
+
+    return this._client.get<Array<IExerciseGroup>>(url);
   }
 
   add(recorded: IDateWrapper, weight: IWeight): Observable<IExerciseGroup> {
