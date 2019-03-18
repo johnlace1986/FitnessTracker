@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ExerciseGroupService } from '../services/exercise-group.service';
-import { IExerciseGroup } from '../models/exercise-group';
+import { IExerciseGroupPeriod } from '../models/exercise-group-period';
 
 @Component({
   selector: 'ft-home',
@@ -10,7 +10,7 @@ import { IExerciseGroup } from '../models/exercise-group';
 export class HomeComponent implements OnInit {
 
   public errorMessage: string;
-  public groups: Array<IExerciseGroup> = new Array<IExerciseGroup>();
+  public periods: Array<IExerciseGroupPeriod> = new Array<IExerciseGroupPeriod>();
   public canShowMore: Boolean = true;
 
   private _offset: number = 0;
@@ -25,17 +25,33 @@ export class HomeComponent implements OnInit {
     this.errorMessage = '';
 
     this._service.get(this._offset)
-      .subscribe(groups => {
+      .subscribe(periods => {
 
-        if (groups.length == 0){
+        if (periods.length == 0) {
           this.canShowMore = false;
         }
         else {
-          groups.forEach((group) => {
-            this.groups.push(group);
-          });
+          periods.forEach(newPeriod => {
 
-          this._offset += groups.length;
+            var actualPeriod: IExerciseGroupPeriod = null;
+
+            this.periods.forEach(currentPeriod => {
+              if (currentPeriod.year == newPeriod.year && currentPeriod.month == newPeriod.month) {
+                actualPeriod = currentPeriod;
+              }
+            });
+
+            if (actualPeriod) {
+              newPeriod.groups.forEach(period => {
+                actualPeriod.groups.push(period);
+              });
+            }
+            else {
+              this.periods.push(newPeriod)
+            }
+
+            this._offset += newPeriod.groups.length;
+          });
         }
       },
       () => {

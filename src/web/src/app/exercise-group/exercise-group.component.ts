@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { IExerciseGroupSummary } from '../models/exercise-group-summary';
+
+import { IExerciseGroupPeriod } from '../models/exercise-group-period';
 
 @Component({
   selector: 'ft-exercise-group',
@@ -9,7 +10,7 @@ import { IExerciseGroupSummary } from '../models/exercise-group-summary';
 export class ExerciseGroupComponent implements OnInit {
 
   @Input()
-  public group: IExerciseGroupSummary;
+  public period: IExerciseGroupPeriod;
 
   constructor() { }
 

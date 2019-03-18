@@ -3,8 +3,8 @@
 </div>
 
 <ft-exercise-group
-    *ngFor="let group of groups"
-    [group]="group">
+    *ngFor="let period of periods"
+    [period]="period">
 </ft-exercise-group>
 
 <button *ngIf="canShowMore" class="btn btn-primary" (click)="showMore()">Show More</button>

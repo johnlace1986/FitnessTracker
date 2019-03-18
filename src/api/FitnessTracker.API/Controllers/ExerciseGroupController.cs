@@ -53,7 +53,13 @@ namespace FitnessTracker.API.Controllers
                 };
             })).ConfigureAwait(false);
 
-            return Ok(mapped);
+            var grouped =
+                from summary in mapped
+                group summary by new {summary.Recorded.Year, summary.Recorded.Month}
+                into g
+                select new { g.Key.Year, g.Key.Month, Groups = g.AsEnumerable() };
+
+            return Ok(grouped);
         }
 
         [HttpGet]
