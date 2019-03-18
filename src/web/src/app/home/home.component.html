@@ -2,9 +2,6 @@
     <div *ngIf="errorMessage && errorMessage.length > 0" class="alert alert-danger">{{errorMessage}}</div>
 </div>
 
-<div *ngFor="let period of periods" class="row">
-    <div class="col">{{period.month}} {{period.year}}</div>
-    <div class="col">{{period.groups.length}} exercise(s)</div>
-</div>
+<ft-exercise-group-period *ngFor="let period of periods" [period]="period"></ft-exercise-group-period>
 
 <button *ngIf="canShowMore" class="btn btn-primary" (click)="showMore()">Show More</button>
