@@ -9,15 +9,13 @@ import { HomeComponent } from './home/home.component';
 import { NewExerciseGroupComponent } from './new-exercise-group/new-exercise-group.component';
 import { NewExerciseComponent } from './new-exercise/new-exercise.component';
 import { SharedModule } from './shared/shared.module';
-import { ExerciseGroupComponent } from './exercise-group/exercise-group.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     NewExerciseGroupComponent,
-    NewExerciseComponent,
-    ExerciseGroupComponent
+    NewExerciseComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +30,6 @@ import { ExerciseGroupComponent } from './exercise-group/exercise-group.componen
     ])
   ],
   exports: [
-    ExerciseGroupComponent
   ],
   providers: [],
   bootstrap: [AppComponent]
