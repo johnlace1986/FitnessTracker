@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using EnsureThat;
+﻿using EnsureThat;
 using FitnessTracker.API.Models.Requests;
 using FitnessTracker.API.Models.Results;
 using FitnessTracker.API.Services;
 using FitnessTracker.Models;
 using FitnessTracker.MongoDB;
-using FitnessTracker.MongoDB.ExerciseGroup;
 using FitnessTracker.Services;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace FitnessTracker.API.Controllers
 {
@@ -37,6 +36,26 @@ namespace FitnessTracker.API.Controllers
             return context.ExerciseGroupClient;
         }
 
+        public override async Task<IActionResult> Get(CancellationToken cancellationToken)
+        {
+            var groups = await Client.GetAsync(cancellationToken);
+
+            var mapped = await Task.WhenAll(groups.Select(async (group) =>
+            {
+                var exercises = await _service.GetExercisesAsync(group, cancellationToken);
+
+                return new ExerciseGroupSummary
+                {
+                    Id = group.Id,
+                    Recorded = group.Recorded,
+                    Weight = group.Weight,
+                    ExerciseCount = exercises.Count()
+                };
+            }));
+
+            return Ok(mapped);
+        }
+
         [HttpGet]
         [Route("{id}", Name = "GetExerciseGroupById")]
         public async Task<IActionResult> Get(Guid id, CancellationToken cancellationToken)
@@ -48,7 +67,15 @@ namespace FitnessTracker.API.Controllers
                 return NotFound();
             }
 
-            return Ok(await _service.Map(group, cancellationToken).ConfigureAwait(false));
+            var exercises = await _service.GetExercisesAsync(group, cancellationToken);
+
+            return Ok(new ExerciseGroupResult
+            {
+                Id = group.Id,
+                Recorded = group.Recorded,
+                Weight = group.Weight,
+                Exercises = exercises
+            });
         }
 
         [HttpPost]

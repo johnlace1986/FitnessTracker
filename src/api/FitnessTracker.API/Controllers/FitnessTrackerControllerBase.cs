@@ -26,9 +26,10 @@ namespace FitnessTracker.API.Controllers
         protected abstract IClient<TModel> GetClient(IFitnessTrackerContext context);
 
         [HttpGet]
-        public Task<IEnumerable<TModel>> Get(CancellationToken cancellationToken)
+        public virtual async Task<IActionResult> Get(CancellationToken cancellationToken)
         {
-            return Client.GetAsync(cancellationToken);
+            var models = await Client.GetAsync(cancellationToken);
+            return Ok(models);
         }
 
         protected async Task<IActionResult> Post(TRequest request, string routeName, CancellationToken cancellationToken)

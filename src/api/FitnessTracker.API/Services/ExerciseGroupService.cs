@@ -3,6 +3,7 @@ using FitnessTracker.API.Models.Results;
 using FitnessTracker.Models;
 using FitnessTracker.MongoDB;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -19,19 +20,11 @@ namespace FitnessTracker.API.Services
             _context = context;
         }
 
-        public async Task<ExerciseGroupResult> Map(ExerciseGroup group, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Exercise>> GetExercisesAsync(ExerciseGroup group, CancellationToken cancellationToken)
         {
             var previous = await _context.ExerciseGroupClient.GetPreviousExerciseGroupById(group.Recorded, cancellationToken).ConfigureAwait(false);
 
-            var exercises = await _context.ExerciseClient.GetExercisesInDateRange(previous?.Recorded ?? DateTime.MinValue, group.Recorded, cancellationToken).ConfigureAwait(false);
-
-            return new ExerciseGroupResult
-            {
-                Id = group.Id,
-                Recorded = group.Recorded,
-                Weight = group.Weight,
-                Exercises = exercises
-            };
+            return await _context.ExerciseClient.GetExercisesInDateRange(previous?.Recorded ?? DateTime.MinValue, group.Recorded, cancellationToken).ConfigureAwait(false);
         }
     }
 }
