@@ -55,7 +55,7 @@ namespace FitnessTracker.API.Controllers
 
             var grouped =
                 from summary in mapped
-                group summary by new {summary.Recorded.Year, summary.Recorded.Month}
+                group summary by new {summary.Recorded.Year, Month = summary.Recorded.ToString("MMMM")}
                 into g
                 select new { g.Key.Year, g.Key.Month, Groups = g.AsEnumerable() };
 
