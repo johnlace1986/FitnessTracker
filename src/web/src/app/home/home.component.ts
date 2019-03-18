@@ -42,8 +42,10 @@ export class HomeComponent implements OnInit {
             });
 
             if (actualPeriod) {
-              newPeriod.groups.forEach(period => {
-                actualPeriod.groups.push(period);
+              newPeriod.groups.forEach(group => {
+                actualPeriod.groups.push(group);
+
+                console.log(group);
               });
             }
             else {

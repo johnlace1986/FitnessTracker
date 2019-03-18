@@ -7,6 +7,8 @@ namespace FitnessTracker.MongoDB.ExerciseGroup
 {
     public interface IExerciseGroupClient : IClient<Models.ExerciseGroup>
     {
-        Task<Models.ExerciseGroup> GetPreviousExerciseGroupById(DateTime recorded, CancellationToken cancellationToken);
+        Task<Models.ExerciseGroup> GetPreviousExerciseGroup(DateTime recorded, CancellationToken cancellationToken);
+
+        Task<Models.ExerciseGroup> GetFirstExerciseGroup(CancellationToken cancellationToken);
     }
 }

@@ -42,14 +42,21 @@ namespace FitnessTracker.API.Controllers
 
             var mapped = await Task.WhenAll(groups.Select(async (group) =>
             {
-                var exercises = await _service.GetExercisesAsync(group, cancellationToken).ConfigureAwait(false);
+                var result = await _service.GetExercisesAsync(group, cancellationToken).ConfigureAwait(false);
 
                 return new
                 {
-                    Id = group.Id,
-                    Recorded = group.Recorded,
-                    Weight = group.Weight,
-                    ExerciseCount = exercises.Count()
+                    result.Id,
+                    result.Recorded,
+                    result.Weight,
+                    result.CanDelete,
+                    result.TotalTimeDieting,
+                    result.WeightLostThisWeek,
+                    result.WeightLostInTotal,
+                    result.WeightLosingPerWeek,
+                    result.TotalExerciseDistance,
+                    result.TotalTimeSpentExercising,
+                    ExerciseCount = result.Exercises.Count()
                 };
             })).ConfigureAwait(false);
 
@@ -73,14 +80,21 @@ namespace FitnessTracker.API.Controllers
                 return NotFound();
             }
 
-            var exercises = await _service.GetExercisesAsync(group, cancellationToken);
+            var result = await _service.GetExercisesAsync(group, cancellationToken);
 
-            return Ok(new ExerciseGroupResult
+            return Ok(new
             {
-                Id = group.Id,
-                Recorded = group.Recorded,
-                Weight = group.Weight,
-                Exercises = exercises
+                result.Id,
+                result.Recorded,
+                result.Weight,
+                result.CanDelete,
+                result.TotalTimeDieting,
+                result.WeightLostThisWeek,
+                result.WeightLostInTotal,
+                result.WeightLosingPerWeek,
+                result.TotalExerciseDistance,
+                result.TotalTimeSpentExercising,
+                result.Exercises
             });
         }
 

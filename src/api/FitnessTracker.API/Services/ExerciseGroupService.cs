@@ -3,7 +3,7 @@ using FitnessTracker.API.Models.Results;
 using FitnessTracker.Models;
 using FitnessTracker.MongoDB;
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -20,11 +20,40 @@ namespace FitnessTracker.API.Services
             _context = context;
         }
 
-        public async Task<IEnumerable<Exercise>> GetExercisesAsync(ExerciseGroup group, CancellationToken cancellationToken)
+        public async Task<ExerciseGroupResult> GetExercisesAsync(ExerciseGroup group, CancellationToken cancellationToken)
         {
-            var previous = await _context.ExerciseGroupClient.GetPreviousExerciseGroupById(group.Recorded, cancellationToken).ConfigureAwait(false);
+            var previous = await _context.ExerciseGroupClient.GetPreviousExerciseGroup(group.Recorded, cancellationToken).ConfigureAwait(false);
 
-            return await _context.ExerciseClient.GetExercisesInDateRange(previous?.Recorded ?? DateTime.MinValue, group.Recorded, cancellationToken).ConfigureAwait(false);
+            var exercises = (await _context.ExerciseClient
+                .GetExercisesInDateRange(previous?.Recorded ?? DateTime.MinValue, group.Recorded, cancellationToken)
+                .ConfigureAwait(false)).ToArray();
+
+            var result = new ExerciseGroupResult
+            {
+                Id = group.Id,
+                Recorded = group.Recorded,
+                Weight = group.Weight,
+                Exercises = exercises
+            };
+
+            if (previous == null)
+            {
+                result.CanDelete = false;
+            }
+            else
+            {
+                var first = await _context.ExerciseGroupClient.GetFirstExerciseGroup(cancellationToken).ConfigureAwait(false);
+
+                result.CanDelete = true;
+                result.TotalTimeDieting = group.Recorded - first.Recorded;
+                result.WeightLostThisWeek = group.Weight - previous.Weight;
+                result.WeightLostInTotal = group.Weight - first.Weight;
+                ///TODO: result.WeightLosingPerWeek
+                result.TotalExerciseDistance = exercises.Sum(exercise => exercise.Distance);
+                result.TotalTimeSpentExercising = TimeSpan.FromMilliseconds(exercises.Sum(exercise => exercise.TimeTaken.TotalMilliseconds));
+            }
+
+            return result;
         }
     }
 }

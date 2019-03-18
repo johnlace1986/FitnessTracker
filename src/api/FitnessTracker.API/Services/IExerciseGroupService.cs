@@ -1,5 +1,5 @@
-﻿using FitnessTracker.Models;
-using System.Collections.Generic;
+﻿using FitnessTracker.API.Models.Results;
+using FitnessTracker.Models;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -7,6 +7,6 @@ namespace FitnessTracker.API.Services
 {
     public interface IExerciseGroupService
     {
-        Task<IEnumerable<Exercise>> GetExercisesAsync(ExerciseGroup group, CancellationToken cancellationToken);
+        Task<ExerciseGroupResult> GetExercisesAsync(ExerciseGroup group, CancellationToken cancellationToken);
     }
 }
