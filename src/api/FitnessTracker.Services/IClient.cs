@@ -7,9 +7,9 @@ namespace FitnessTracker.Services
 {
     public interface IClient<TModel> where TModel : IModel
     {
-        IEnumerable<TModel> Get();
+        Task<IEnumerable<TModel>> GetAsync(CancellationToken cancellationToken);
 
-        Task<TModel> GetById(Guid id, CancellationToken cancellationToken);
+        Task<TModel> GetByIdAsync(Guid id, CancellationToken cancellationToken);
 
         Task<TModel> InsertAsync(IRequest<TModel> request, CancellationToken cancellationToken);
 

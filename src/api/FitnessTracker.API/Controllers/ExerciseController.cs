@@ -31,7 +31,7 @@ namespace FitnessTracker.API.Controllers
         [Route("{id}", Name = "GetExerciseById")]
         public async Task<IActionResult> Get(Guid id, CancellationToken cancellationToken)
         {
-            return EnsureModelNotNull(await Client.GetById(id, cancellationToken));
+            return EnsureModelNotNull(await Client.GetByIdAsync(id, cancellationToken).ConfigureAwait(false));
         }
 
         [HttpPost]

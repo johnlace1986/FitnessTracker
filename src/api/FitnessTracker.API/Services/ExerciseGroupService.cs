@@ -21,9 +21,9 @@ namespace FitnessTracker.API.Services
 
         public async Task<ExerciseGroupResult> Map(ExerciseGroup group, CancellationToken cancellationToken)
         {
-            var previous = await _context.ExerciseGroupClient.GetPreviousExerciseGroupById(group.Recorded, cancellationToken);
+            var previous = await _context.ExerciseGroupClient.GetPreviousExerciseGroupById(group.Recorded, cancellationToken).ConfigureAwait(false);
 
-            var exercises = await _context.ExerciseClient.GetExercisesInDateRange(previous?.Recorded ?? DateTime.MinValue, group.Recorded, cancellationToken);
+            var exercises = await _context.ExerciseClient.GetExercisesInDateRange(previous?.Recorded ?? DateTime.MinValue, group.Recorded, cancellationToken).ConfigureAwait(false);
 
             return new ExerciseGroupResult
             {

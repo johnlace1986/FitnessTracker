@@ -28,7 +28,7 @@ namespace FitnessTracker.API.Controllers
         [HttpGet]
         public Task<IEnumerable<TModel>> Get(CancellationToken cancellationToken)
         {
-            return Task.FromResult(Client.Get());
+            return Client.GetAsync(cancellationToken);
         }
 
         protected async Task<IActionResult> Post(TRequest request, string routeName, CancellationToken cancellationToken)
@@ -38,21 +38,21 @@ namespace FitnessTracker.API.Controllers
                 return BadRequest();
             }
 
-            var model = await Client.InsertAsync(request, cancellationToken);
+            var model = await Client.InsertAsync(request, cancellationToken).ConfigureAwait(false);
             return CreatedAtRoute(routeName, new { model.Id }, model);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
-            var model = await Client.GetById(id, cancellationToken);
+            var model = await Client.GetByIdAsync(id, cancellationToken).ConfigureAwait(false);
 
             if (model == null)
             {
                 return NotFound();
             }
 
-            await Client.DeleteAsync(id, cancellationToken);
+            await Client.DeleteAsync(id, cancellationToken).ConfigureAwait(false);
             return Ok();
         }
 

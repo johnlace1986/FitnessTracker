@@ -20,14 +20,18 @@ namespace FitnessTracker.MongoDB
             _collection = database.GetCollection<TModel>(collectionName);
         }
 
-        public IEnumerable<TModel> Get()
+        public async Task<IEnumerable<TModel>> GetAsync(CancellationToken cancellationToken)
         {
-            return _collection.Find(FilterDefinition<TModel>.Empty)
-                .Sort(Builders<TModel>.Sort.Ascending("Recorded"))
-                .ToEnumerable();
+            var options = new FindOptions<TModel>
+            {
+                Sort = Builders<TModel>.Sort.Ascending("Recorded")
+            };
+
+            var cursor = await _collection.FindAsync(FilterDefinition<TModel>.Empty, options, cancellationToken).ConfigureAwait(false);
+            return await cursor.ToListAsync(cancellationToken).ConfigureAwait(false);
         }
 
-        public Task<TModel> GetById(Guid id, CancellationToken cancellationToken)
+        public Task<TModel> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             return _collection.Find(GetByIdFilter(id)).SingleOrDefaultAsync(cancellationToken);
         }
@@ -36,7 +40,7 @@ namespace FitnessTracker.MongoDB
         {
             var model = request.Map();
 
-            await _collection.InsertOneAsync(model, new InsertOneOptions(), cancellationToken);
+            await _collection.InsertOneAsync(model, new InsertOneOptions(), cancellationToken).ConfigureAwait(false);
 
             return model;
         }

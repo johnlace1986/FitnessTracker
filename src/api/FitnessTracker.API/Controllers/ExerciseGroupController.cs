@@ -41,14 +41,14 @@ namespace FitnessTracker.API.Controllers
         [Route("{id}", Name = "GetExerciseGroupById")]
         public async Task<IActionResult> Get(Guid id, CancellationToken cancellationToken)
         {
-            var group = await Client.GetById(id, cancellationToken);
+            var group = await Client.GetByIdAsync(id, cancellationToken).ConfigureAwait(false);
 
             if (group == null)
             {
                 return NotFound();
             }
 
-            return Ok(await _service.Map(group, cancellationToken));
+            return Ok(await _service.Map(group, cancellationToken).ConfigureAwait(false));
         }
 
         [HttpPost]
