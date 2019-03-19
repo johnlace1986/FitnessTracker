@@ -1,17 +1,14 @@
 ﻿using EnsureThat;
 using FitnessTracker.API.Models.Requests;
-using FitnessTracker.API.Models.Results;
 using FitnessTracker.API.Services;
 using FitnessTracker.Models;
 using FitnessTracker.MongoDB;
-using FitnessTracker.Services;
+using FitnessTracker.MongoDB.ExerciseGroup;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using FitnessTracker.MongoDB.ExerciseGroup;
 
 namespace FitnessTracker.API.Controllers
 {

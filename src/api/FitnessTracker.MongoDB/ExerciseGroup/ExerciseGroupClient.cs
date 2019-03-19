@@ -1,9 +1,9 @@
-﻿using MongoDB.Driver;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
 using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using MongoDB.Bson;
 
 namespace FitnessTracker.MongoDB.ExerciseGroup
 {
@@ -36,8 +36,8 @@ namespace FitnessTracker.MongoDB.ExerciseGroup
                 Sort = Builders<Models.ExerciseGroup>.Sort.Ascending(group => group.Recorded)
             };
 
-            var cursor = await Collection.FindAsync(FilterDefinition<Models.ExerciseGroup>.Empty, options, cancellationToken);
-            return await cursor.SingleOrDefaultAsync(cancellationToken);
+            var cursor = await Collection.FindAsync(FilterDefinition<Models.ExerciseGroup>.Empty, options, cancellationToken).ConfigureAwait(false);
+            return await cursor.SingleOrDefaultAsync(cancellationToken).ConfigureAwait(false);
         }
     }
 }

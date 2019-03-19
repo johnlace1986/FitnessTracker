@@ -1,9 +1,6 @@
-﻿using System;
+﻿using FitnessTracker.API.Models.Results;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using FitnessTracker.API.Models.Results;
 
 namespace FitnessTracker.API.Services
 {

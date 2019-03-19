@@ -1,11 +1,10 @@
-﻿using System;
+﻿using EnsureThat;
+using FitnessTracker.API.Models.Results;
+using FitnessTracker.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using EnsureThat;
-using FitnessTracker.API.Models.Results;
-using FitnessTracker.Models;
 
 namespace FitnessTracker.API.Services
 {
