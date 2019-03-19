@@ -29,6 +29,7 @@ namespace FitnessTracker.API
 
             services.AddSingleton<IExerciseGroupResultAdapter, ExerciseGroupResultAdapter>();
             services.AddSingleton<IExerciseGroupSummaryAdapter, ExerciseGroupSummaryAdapter>();
+            services.AddSingleton<IExerciseGroupSummaryPeriodAdapter, ExerciseGroupSummaryPeriodAdapter>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

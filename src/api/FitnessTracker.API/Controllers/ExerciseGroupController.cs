@@ -22,18 +22,22 @@ namespace FitnessTracker.API.Controllers
     {
         private readonly IExerciseGroupSummaryAdapter _summaryAdapter;
         private readonly IExerciseGroupResultAdapter _resultAdapter;
+        private readonly IExerciseGroupSummaryPeriodAdapter _summaryPeriodAdapter;
 
         public ExerciseGroupController(
             IFitnessTrackerContext context,
             IExerciseGroupSummaryAdapter summaryAdapter,
-            IExerciseGroupResultAdapter resultAdapter)
+            IExerciseGroupResultAdapter resultAdapter,
+            IExerciseGroupSummaryPeriodAdapter summaryPeriodAdapter)
             : base(context)
         {
             Ensure.That(summaryAdapter).IsNotNull();
             Ensure.That(resultAdapter).IsNotNull();
+            Ensure.That(summaryPeriodAdapter).IsNotNull();
 
             _summaryAdapter = summaryAdapter;
             _resultAdapter = resultAdapter;
+            _summaryPeriodAdapter = summaryPeriodAdapter;
         }
 
         protected override IExerciseGroupClient GetClient(IFitnessTrackerContext context)
@@ -48,13 +52,7 @@ namespace FitnessTracker.API.Controllers
                 await Client.GetFirstExerciseGroup(cancellationToken).ConfigureAwait(false),
                 cancellationToken).ConfigureAwait(false);
 
-            var summaryGroups =
-                from summary in summaries
-                group summary by new {summary.Recorded.Year, Month = summary.Recorded.ToString("MMMM")}
-                into summaryGroup
-                select new { summaryGroup.Key.Year, summaryGroup.Key.Month, Groups = summaryGroup.AsEnumerable() };
-
-            return Ok(summaryGroups);
+            return Ok(_summaryPeriodAdapter.Adapt(summaries));
         }
 
         [HttpGet]
