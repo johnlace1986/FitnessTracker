@@ -9,18 +9,12 @@ namespace FitnessTracker.API.Services
 {
     public class ExerciseGroupSummaryPeriodAdapter : IExerciseGroupSummaryPeriodAdapter
     {
-        public IEnumerable<ExerciseGroupSummaryPeriod> Adapt(IEnumerable<ExerciseGroupSummary> summaries)
-        {
-            return
-                from summary in summaries
-                group summary by new {Title = $"{summary.Recorded:MMMM} {summary.Recorded.Year}"}
-                into summaryGroup
-                select new ExerciseGroupSummaryPeriod
-                {
-                    Title = summaryGroup.Key.Title,
-                    Summaries = summaryGroup.AsEnumerable()
-                };
-
-        }
+        public IEnumerable<ExerciseGroupSummaryPeriod> Adapt(IEnumerable<ExerciseGroupSummary> summaries) =>
+            summaries.GroupBy(summary => new {Title = $"{summary.Recorded:MMMM} {summary.Recorded.Year}"})
+                .Select(summaryGroup =>
+                    new ExerciseGroupSummaryPeriod
+                    {
+                        Title = summaryGroup.Key.Title, Summaries = summaryGroup.AsEnumerable()
+                    });
     }
 }
