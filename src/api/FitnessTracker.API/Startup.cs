@@ -28,6 +28,7 @@ namespace FitnessTracker.API
             services.AddMongo(Configuration);
 
             services.AddSingleton<IExerciseGroupResultAdapter, ExerciseGroupResultAdapter>();
+            services.AddSingleton<IExerciseGroupSummaryAdapter, ExerciseGroupSummaryAdapter>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
