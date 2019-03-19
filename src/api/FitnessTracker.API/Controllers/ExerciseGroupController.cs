@@ -20,16 +20,20 @@ namespace FitnessTracker.API.Controllers
     [EnableCors("FitnessTracker.Web")]
     public class ExerciseGroupController : FitnessTrackerControllerBase<ExerciseGroup, ExerciseGroupRequest, IExerciseGroupClient>
     {
-        private readonly IExerciseGroupResultAdapter _service;
+        private readonly IExerciseGroupSummaryAdapter _summaryAdapter;
+        private readonly IExerciseGroupResultAdapter _resultAdapter;
 
         public ExerciseGroupController(
             IFitnessTrackerContext context,
-            IExerciseGroupResultAdapter service)
+            IExerciseGroupSummaryAdapter summaryAdapter,
+            IExerciseGroupResultAdapter resultAdapter)
             : base(context)
         {
-            Ensure.That(service).IsNotNull();
+            Ensure.That(summaryAdapter).IsNotNull();
+            Ensure.That(resultAdapter).IsNotNull();
 
-            _service = service;
+            _summaryAdapter = summaryAdapter;
+            _resultAdapter = resultAdapter;
         }
 
         protected override IExerciseGroupClient GetClient(IFitnessTrackerContext context)
@@ -39,31 +43,13 @@ namespace FitnessTracker.API.Controllers
 
         public override async Task<IActionResult> Get(int? limit, int? offset, CancellationToken cancellationToken)
         {
-            var groups = await Client.GetAsync(limit, offset, cancellationToken).ConfigureAwait(false);
-
-            var mapped = await Task.WhenAll(groups.Select(async (group) =>
-            {
-                var first = await GetInitialExerciseGroup(cancellationToken).ConfigureAwait(false);
-                var result = await _service.AdaptAsync(group, first, cancellationToken).ConfigureAwait(false);
-
-                return new
-                {
-                    result.Id,
-                    result.Recorded,
-                    result.Weight,
-                    result.CanDelete,
-                    result.TotalTimeDieting,
-                    result.WeightLostThisWeek,
-                    result.WeightLostInTotal,
-                    result.WeightLosingPerWeek,
-                    result.TotalExerciseDistance,
-                    result.TotalTimeSpentExercising,
-                    ExerciseCount = result.Exercises.Count()
-                };
-            })).ConfigureAwait(false);
+            var summaries = await _summaryAdapter.AdaptAsync(
+                await Client.GetAsync(limit, offset, cancellationToken).ConfigureAwait(false),
+                await Client.GetFirstExerciseGroup(cancellationToken).ConfigureAwait(false),
+                cancellationToken).ConfigureAwait(false);
 
             var summaryGroups =
-                from summary in mapped
+                from summary in summaries
                 group summary by new {summary.Recorded.Year, Month = summary.Recorded.ToString("MMMM")}
                 into summaryGroup
                 select new { summaryGroup.Key.Year, summaryGroup.Key.Month, Groups = summaryGroup.AsEnumerable() };
@@ -83,22 +69,9 @@ namespace FitnessTracker.API.Controllers
             }
 
             var first = await GetInitialExerciseGroup(cancellationToken).ConfigureAwait(false);
-            var result = await _service.AdaptAsync(group, first, cancellationToken).ConfigureAwait(false);
+            var result = await _resultAdapter.AdaptAsync(group, first, cancellationToken).ConfigureAwait(false);
 
-            return Ok(new
-            {
-                result.Id,
-                result.Recorded,
-                result.Weight,
-                result.CanDelete,
-                result.TotalTimeDieting,
-                result.WeightLostThisWeek,
-                result.WeightLostInTotal,
-                result.WeightLosingPerWeek,
-                result.TotalExerciseDistance,
-                result.TotalTimeSpentExercising,
-                result.Exercises
-            });
+            return Ok(result);
         }
 
         [HttpPost]
