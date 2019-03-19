@@ -49,7 +49,7 @@ namespace FitnessTracker.API.Controllers
         {
             var summaries = await _summaryAdapter.AdaptAsync(
                 await Client.GetAsync(limit, offset, cancellationToken).ConfigureAwait(false),
-                await Client.GetFirstExerciseGroup(cancellationToken).ConfigureAwait(false),
+                await GetInitialExerciseGroup(cancellationToken).ConfigureAwait(false),
                 cancellationToken).ConfigureAwait(false);
 
             return Ok(_summaryPeriodAdapter.Adapt(summaries));
