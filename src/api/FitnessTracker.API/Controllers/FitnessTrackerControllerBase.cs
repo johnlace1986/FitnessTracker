@@ -3,18 +3,18 @@ using FitnessTracker.MongoDB;
 using FitnessTracker.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace FitnessTracker.API.Controllers
 {
-    public abstract class FitnessTrackerControllerBase<TModel, TRequest> 
+    public abstract class FitnessTrackerControllerBase<TModel, TRequest, TClient> 
         : ControllerBase 
         where TModel : IModel
         where TRequest : IRequest<TModel>
+        where TClient : IClient<TModel>
     {
-        protected IClient<TModel> Client { get; }
+        protected TClient Client { get; }
 
         protected FitnessTrackerControllerBase(IFitnessTrackerContext context)
         {
@@ -23,7 +23,7 @@ namespace FitnessTracker.API.Controllers
             Client = GetClient(context);
         }
 
-        protected abstract IClient<TModel> GetClient(IFitnessTrackerContext context);
+        protected abstract TClient GetClient(IFitnessTrackerContext context);
 
         [HttpGet]
         public virtual async Task<IActionResult> Get(int? limit, int? offset, CancellationToken cancellationToken)

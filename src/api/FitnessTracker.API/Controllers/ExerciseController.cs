@@ -1,28 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using FitnessTracker.API.Models.Requests;
+﻿using FitnessTracker.API.Models.Requests;
 using FitnessTracker.Models;
 using FitnessTracker.MongoDB;
 using FitnessTracker.MongoDB.Exercise;
-using FitnessTracker.Services;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace FitnessTracker.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors("FitnessTracker.Web")]
-    public class ExerciseController : FitnessTrackerControllerBase<Exercise, ExerciseRequest>
+    public class ExerciseController : FitnessTrackerControllerBase<Exercise, ExerciseRequest, IExerciseClient>
     {
         public ExerciseController(IFitnessTrackerContext context)
             : base(context)
         {
         }
 
-        protected override IClient<Exercise> GetClient(IFitnessTrackerContext context)
+        protected override IExerciseClient GetClient(IFitnessTrackerContext context)
         {
             return context.ExerciseClient;
         }

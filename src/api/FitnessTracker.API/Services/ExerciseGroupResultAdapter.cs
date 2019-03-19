@@ -9,18 +9,18 @@ using System.Threading.Tasks;
 
 namespace FitnessTracker.API.Services
 {
-    public class ExerciseGroupService : IExerciseGroupService
+    public class ExerciseGroupResultAdapter : IExerciseGroupResultAdapter
     {
         private readonly IFitnessTrackerContext _context;
 
-        public ExerciseGroupService(IFitnessTrackerContext context)
+        public ExerciseGroupResultAdapter(IFitnessTrackerContext context)
         {
             Ensure.That(context).IsNotNull();
 
             _context = context;
         }
 
-        public async Task<ExerciseGroupResult> GetExercisesAsync(ExerciseGroup group, CancellationToken cancellationToken)
+        public async Task<ExerciseGroupResult> AdaptAsync(ExerciseGroup group, ExerciseGroup first, CancellationToken cancellationToken)
         {
             var previous = await _context.ExerciseGroupClient.GetPreviousExerciseGroup(group.Recorded, cancellationToken).ConfigureAwait(false);
 
@@ -42,8 +42,6 @@ namespace FitnessTracker.API.Services
             }
             else
             {
-                var first = await _context.ExerciseGroupClient.GetFirstExerciseGroup(cancellationToken).ConfigureAwait(false);
-
                 result.CanDelete = true;
                 result.TotalTimeDieting = group.Recorded - first.Recorded;
                 result.WeightLostThisWeek = group.Weight - previous.Weight;

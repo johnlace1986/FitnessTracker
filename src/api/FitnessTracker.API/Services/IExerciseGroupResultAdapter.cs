@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace FitnessTracker.API.Services
 {
-    public interface IExerciseGroupService
+    public interface IExerciseGroupResultAdapter
     {
-        Task<ExerciseGroupResult> GetExercisesAsync(ExerciseGroup group, CancellationToken cancellationToken);
+        Task<ExerciseGroupResult> AdaptAsync(ExerciseGroup group, ExerciseGroup first, CancellationToken cancellationToken);
     }
 }

@@ -11,19 +11,20 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using FitnessTracker.MongoDB.ExerciseGroup;
 
 namespace FitnessTracker.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors("FitnessTracker.Web")]
-    public class ExerciseGroupController : FitnessTrackerControllerBase<ExerciseGroup, ExerciseGroupRequest>
+    public class ExerciseGroupController : FitnessTrackerControllerBase<ExerciseGroup, ExerciseGroupRequest, IExerciseGroupClient>
     {
-        private readonly IExerciseGroupService _service;
+        private readonly IExerciseGroupResultAdapter _service;
 
         public ExerciseGroupController(
             IFitnessTrackerContext context,
-            IExerciseGroupService service)
+            IExerciseGroupResultAdapter service)
             : base(context)
         {
             Ensure.That(service).IsNotNull();
@@ -31,7 +32,7 @@ namespace FitnessTracker.API.Controllers
             _service = service;
         }
 
-        protected override IClient<ExerciseGroup> GetClient(IFitnessTrackerContext context)
+        protected override IExerciseGroupClient GetClient(IFitnessTrackerContext context)
         {
             return context.ExerciseGroupClient;
         }
@@ -42,7 +43,8 @@ namespace FitnessTracker.API.Controllers
 
             var mapped = await Task.WhenAll(groups.Select(async (group) =>
             {
-                var result = await _service.GetExercisesAsync(group, cancellationToken).ConfigureAwait(false);
+                var first = await GetInitialExerciseGroup(cancellationToken).ConfigureAwait(false);
+                var result = await _service.AdaptAsync(group, first, cancellationToken).ConfigureAwait(false);
 
                 return new
                 {
@@ -60,13 +62,13 @@ namespace FitnessTracker.API.Controllers
                 };
             })).ConfigureAwait(false);
 
-            var grouped =
+            var summaryGroups =
                 from summary in mapped
                 group summary by new {summary.Recorded.Year, Month = summary.Recorded.ToString("MMMM")}
-                into g
-                select new { g.Key.Year, g.Key.Month, Groups = g.AsEnumerable() };
+                into summaryGroup
+                select new { summaryGroup.Key.Year, summaryGroup.Key.Month, Groups = summaryGroup.AsEnumerable() };
 
-            return Ok(grouped);
+            return Ok(summaryGroups);
         }
 
         [HttpGet]
@@ -80,7 +82,8 @@ namespace FitnessTracker.API.Controllers
                 return NotFound();
             }
 
-            var result = await _service.GetExercisesAsync(group, cancellationToken);
+            var first = await GetInitialExerciseGroup(cancellationToken).ConfigureAwait(false);
+            var result = await _service.AdaptAsync(group, first, cancellationToken).ConfigureAwait(false);
 
             return Ok(new
             {
@@ -102,6 +105,12 @@ namespace FitnessTracker.API.Controllers
         public Task<IActionResult> Post([FromBody] ExerciseGroupRequest request, CancellationToken cancellationToken)
         {
             return Post(request, "GetExerciseGroupById", cancellationToken);
+        }
+
+        private Task<ExerciseGroup> GetInitialExerciseGroup(CancellationToken cancellationToken)
+        {
+            return Client.GetFirstExerciseGroup(cancellationToken);
+
         }
     }
 }
