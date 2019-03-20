@@ -26,13 +26,11 @@ export class HomeComponent implements OnInit {
 
     this._service.get(this._offset)
       .subscribe(periods => {
-
         if (periods.length == 0) {
           this.canShowMore = false;
         }
         else {
           periods.forEach(newPeriod => {
-
             var actualPeriod: IExerciseGroupPeriod = null;
 
             this.periods.forEach(currentPeriod => {
@@ -42,17 +40,15 @@ export class HomeComponent implements OnInit {
             });
 
             if (actualPeriod) {
-              newPeriod.groups.forEach(group => {
-                actualPeriod.groups.push(group);
-
-                console.log(group);
+              newPeriod.summaries.forEach(summary => {
+                actualPeriod.summaries.push(summary);
               });
             }
             else {
               this.periods.push(newPeriod)
             }
 
-            this._offset += newPeriod.groups.length;
+            this._offset += newPeriod.summaries.length;
           });
         }
       },

@@ -1,4 +1,5 @@
-﻿using FitnessTracker.API.Models.Results;
+﻿using System;
+using FitnessTracker.API.Models.Results;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,11 +8,18 @@ namespace FitnessTracker.API.Services
     public class ExerciseGroupSummaryPeriodAdapter : IExerciseGroupSummaryPeriodAdapter
     {
         public IEnumerable<ExerciseGroupSummaryPeriod> Adapt(IEnumerable<ExerciseGroupSummary> summaries) =>
-            summaries.GroupBy(summary => new {Title = $"{summary.Recorded:MMMM} {summary.Recorded.Year}"})
+            summaries.GroupBy(summary => new {summary.Recorded.Year, summary.Recorded.Month})
                 .Select(summaryGroup =>
-                    new ExerciseGroupSummaryPeriod
+                {
+                    var firstDayOfPeriod = new DateTime(summaryGroup.Key.Year, summaryGroup.Key.Month, 1);
+
+                    return new ExerciseGroupSummaryPeriod
                     {
-                        Title = summaryGroup.Key.Title, Summaries = summaryGroup.AsEnumerable()
-                    });
+                        Title = $"{firstDayOfPeriod:MMMM} {firstDayOfPeriod.Year}",
+                        Year = summaryGroup.Key.Year,
+                        Month = summaryGroup.Key.Month,
+                        Summaries = summaryGroup.AsEnumerable()
+                    };
+                });
     }
 }

@@ -1,7 +1,8 @@
 import { IExerciseGroupSummary } from './exercise-group-summary';
 
 export interface IExerciseGroupPeriod {
+    title: string,
     year: number,
-    month: string,
-    groups: Array<IExerciseGroupSummary>
+    month: number,
+    summaries: Array<IExerciseGroupSummary>
 }
