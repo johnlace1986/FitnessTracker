@@ -4,5 +4,6 @@ export interface IExerciseGroupPeriod {
     title: string,
     year: number,
     month: number,
-    summaries: Array<IExerciseGroupSummary>
+    summaries: Array<IExerciseGroupSummary>,
+    isCollapsed: boolean
 }

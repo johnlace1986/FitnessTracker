@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { IExerciseGroup } from '../models/exercise-group';
 import { IDateWrapper } from '../models/date-wrapper';
@@ -26,7 +27,23 @@ export class ExerciseGroupService {
       url += `&offset=${offset}`;
     }
 
-    return this._client.get<Array<IExerciseGroupPeriod>>(url);
+    const mapExerciseGroupPeriods = map((periods: Array<IExerciseGroupPeriod>) => {
+      let mapped = new Array<IExerciseGroupPeriod>();
+
+      periods.forEach(period => {
+        mapped.push({
+          title: period.title,
+          year: period.year,
+          month: period.month,
+          summaries: period.summaries,
+          isCollapsed: true
+        });
+      });
+
+      return mapped;
+    });
+
+    return mapExerciseGroupPeriods(this._client.get<Array<IExerciseGroupPeriod>>(url));
   }
 
   add(recorded: IDateWrapper, weight: IWeight): Observable<IExerciseGroup> {
