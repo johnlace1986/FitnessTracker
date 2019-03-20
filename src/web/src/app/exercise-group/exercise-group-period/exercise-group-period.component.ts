@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { IExerciseGroupPeriod } from '../models/exercise-group-period';
+import { IExerciseGroupPeriod } from '../../models/exercise-group-period';
 
 @Component({
   selector: 'ft-exercise-group-period',

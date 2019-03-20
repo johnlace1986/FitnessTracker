@@ -1,5 +1,5 @@
-﻿using System;
-using FitnessTracker.API.Models.Results;
+﻿using FitnessTracker.API.Models.Results;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 

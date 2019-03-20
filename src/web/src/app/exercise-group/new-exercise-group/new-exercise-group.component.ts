@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { BaseComponent } from '../models/base.component';
-import { IExerciseGroup } from '../models/exercise-group';
-import { IWeight } from '../models/weight';
-import { ExerciseGroupService } from '../services/exercise-group.service';
+import { BaseComponent } from '../../models/base.component';
+import { IExerciseGroup } from '../../models/exercise-group';
+import { IWeight } from '../../models/weight';
+import { ExerciseGroupService } from '../../services/exercise-group.service';
 
 @Component({
   selector: 'ft-new-exercise-group',
