@@ -35,6 +35,7 @@ export class ExerciseGroupService {
           title: period.title,
           year: period.year,
           month: period.month,
+          totalWeightLost: period.totalWeightLost,
           summaries: period.summaries,
           isCollapsed: true
         });
