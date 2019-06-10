@@ -6,11 +6,13 @@ import { RouterModule } from '@angular/router';
 import { NewExerciseGroupComponent } from './new-exercise-group/new-exercise-group.component';
 import { ExerciseGroupPeriodComponent } from './exercise-group-period/exercise-group-period.component';
 import { SharedModule } from '../shared/shared.module';
+import { ExerciseGroupSummaryComponent } from './exercise-group-summary/exercise-group-summary.component';
 
 @NgModule({
   declarations: [
     NewExerciseGroupComponent,
-    ExerciseGroupPeriodComponent
+    ExerciseGroupPeriodComponent,
+    ExerciseGroupSummaryComponent
   ],
   imports: [
     CommonModule,
@@ -21,7 +23,8 @@ import { SharedModule } from '../shared/shared.module';
     ])
   ],
   exports: [
-    ExerciseGroupPeriodComponent
+    ExerciseGroupPeriodComponent,
+    ExerciseGroupSummaryComponent
   ]
 })
 export class ExerciseGroupModule { }

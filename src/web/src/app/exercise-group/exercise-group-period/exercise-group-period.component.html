@@ -1,16 +1,9 @@
 <p>
-  <a data-toggle="collapse" href="{{'#period' + period.year + period.month}}" role="button" aria-expanded="false">
+  <a data-toggle="collapse" href="{{'#period' + period.year + period.month}}" role="button" aria-expanded="true">
     {{period.title}}
   </a>
 </p>
 
-<div class="collapse" id="{{'period' + period.year + period.month}}">
-  <div *ngFor="let summary of period.summaries" class="row">
-    <div class="col">
-      <span *ngIf="summary.canDelete">Delete</span>
-    </div>
-    <div class="col">{{summary.recorded | date:'EEE d MMMM y'}}</div>
-    <div class="col">{{summary.weight}}</div>
-    <div class="col">{{summary.exerciseCount}}</div>
-  </div>
+<div class="panel-collapse collapse show" id="{{'period' + period.year + period.month}}">
+  <ft-exercise-group-summary *ngFor="let summary of period.summaries" [summary]="summary"></ft-exercise-group-summary>
 </div>

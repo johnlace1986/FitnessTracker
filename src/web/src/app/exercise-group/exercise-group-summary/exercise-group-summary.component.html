@@ -1,0 +1,8 @@
+<div class="row">
+  <div class="col">
+    <span *ngIf="summary.canDelete">Delete</span>
+  </div>
+  <div class="col">{{summary.recorded | date:'EEE d MMMM y'}}</div>
+  <div class="col">{{summary.weight}}</div>
+  <div class="col">{{summary.exerciseCount}}</div>
+</div>
