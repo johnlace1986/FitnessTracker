@@ -24,7 +24,7 @@ namespace FitnessTracker.MongoDB
         {
             var options = new FindOptions<TModel>
             {
-                Sort = Builders<TModel>.Sort.Ascending("Recorded"),
+                Sort = Builders<TModel>.Sort.Descending("Recorded"),
                 Limit = limit,
                 Skip = offset
             };
