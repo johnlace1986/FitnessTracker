@@ -1,16 +1,18 @@
-<p>
-  <a id="{{'periodHeader' + period.year + period.month}}" data-toggle="collapse" href="{{'#period' + period.year + period.month}}" role="button" aria-expanded="true" (click)="toggleExpanded()">
-    <div class="row">
-      <div class="col-11">{{period.title}}</div>
-      <div class="col-1 icon-column">
-          <i *ngIf="period.isExpanded" class="fas fa-sort-up"></i>
-          <i *ngIf="!period.isExpanded" class="fas fa-sort-down"></i>
+<div class="exercise-group-period">
+  <p>
+    <a id="{{'periodHeader' + period.year + period.month}}" data-toggle="collapse" href="{{'#period' + period.year + period.month}}" role="button" aria-expanded="true" (click)="toggleExpanded()">
+      <div class="row">
+        <div class="col-11">{{period.title}}</div>
+        <div class="col-1 icon-column">
+            <i *ngIf="period.isExpanded" class="fas fa-sort-up"></i>
+            <i *ngIf="!period.isExpanded" class="fas fa-sort-down"></i>
+        </div>
       </div>
-    </div>
-    
-  </a>
-</p>
+      
+    </a>
+  </p>
 
-<div class="panel-collapse collapse show" id="{{'period' + period.year + period.month}}">
-  <ft-exercise-group-summary *ngFor="let summary of period.summaries" [summary]="summary"></ft-exercise-group-summary>
+  <div class="panel-collapse collapse show" id="{{'period' + period.year + period.month}}">
+    <ft-exercise-group-summary *ngFor="let summary of period.summaries" [summary]="summary"></ft-exercise-group-summary>
+  </div>
 </div>
