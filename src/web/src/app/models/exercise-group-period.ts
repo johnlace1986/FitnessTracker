@@ -6,5 +6,5 @@ export interface IExerciseGroupPeriod {
     month: number,
     totalWeightLost: number,
     summaries: Array<IExerciseGroupSummary>,
-    isCollapsed: boolean
+    isExpanded: boolean
 }

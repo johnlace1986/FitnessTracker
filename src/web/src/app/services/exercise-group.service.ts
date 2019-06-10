@@ -37,7 +37,7 @@ export class ExerciseGroupService {
           month: period.month,
           totalWeightLost: period.totalWeightLost,
           summaries: period.summaries,
-          isCollapsed: true
+          isExpanded: true
         });
       });
 

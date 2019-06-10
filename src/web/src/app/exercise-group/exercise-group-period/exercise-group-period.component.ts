@@ -16,4 +16,11 @@ export class ExerciseGroupPeriodComponent implements OnInit {
   ngOnInit() {
   }
 
+  toggleExpanded() {
+    var header = document.getElementById('periodHeader' + this.period.year + this.period.month);
+    
+    //property changes before UI updates so we need to use the inverse of aria-expanded
+    this.period.isExpanded = header.getAttribute('aria-expanded') !== 'true';    
+  }
+
 }
