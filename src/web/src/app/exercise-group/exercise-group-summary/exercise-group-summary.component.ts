@@ -19,4 +19,11 @@ export class ExerciseGroupSummaryComponent implements OnInit {
   enumerate(n: number): any[] {
     return Array(n);
   }
+
+  toggleExpanded() {
+    var header = document.getElementById('summaryHeader' + this.summary.id);
+    
+    //property changes before UI updates so we need to use the inverse of aria-expanded
+    this.summary.isExpanded = header.getAttribute('aria-expanded') !== 'true'; 
+  }
 }

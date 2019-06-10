@@ -7,6 +7,7 @@ import { IExerciseGroup } from '../models/exercise-group';
 import { IDateWrapper } from '../models/date-wrapper';
 import { IWeight } from '../models/weight';
 import { IExerciseGroupPeriod } from '../models/exercise-group-period';
+import { IExerciseGroupSummary } from '../models/exercise-group-summary';
 
 
 @Injectable({
@@ -31,12 +32,32 @@ export class ExerciseGroupService {
       let mapped = new Array<IExerciseGroupPeriod>();
 
       periods.forEach(period => {
+
+        let mappedSummaries = new Array<IExerciseGroupSummary>();
+
+        period.summaries.forEach(summary => {
+          mappedSummaries.push({
+            id: summary.id,
+            recorded: summary.recorded,
+            weight: summary.weight,
+            canDelete: summary.canDelete,
+            totalTimeDieting: summary.totalTimeDieting,
+            weightLostThisWeek: summary.weightLostThisWeek,
+            weightLostInTotal: summary.weightLostInTotal,
+            weightLosingPerWeek: summary.weightLosingPerWeek,
+            totalExerciseDistance: summary.totalExerciseDistance,
+            totalTimeSpentExercising: summary.totalTimeSpentExercising,
+            exerciseCount: summary.exerciseCount,
+            isExpanded: false
+          })
+        });
+
         mapped.push({
           title: period.title,
           year: period.year,
           month: period.month,
           totalWeightLost: period.totalWeightLost,
-          summaries: period.summaries,
+          summaries: mappedSummaries,
           isExpanded: true
         });
       });

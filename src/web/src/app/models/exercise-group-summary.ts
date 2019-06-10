@@ -9,5 +9,6 @@ export interface IExerciseGroupSummary extends IExerciseGroup {
     weightLosingPerWeek: number,
     totalExerciseDistance: number,
     totalTimeSpentExercising: ITimeSpanWrapper,
-    exerciseCount: number
+    exerciseCount: number,
+    isExpanded: boolean
 }
