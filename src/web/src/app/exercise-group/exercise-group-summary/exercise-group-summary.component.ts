@@ -16,4 +16,7 @@ export class ExerciseGroupSummaryComponent implements OnInit {
   ngOnInit() {
   }
 
+  enumerate(n: number): any[] {
+    return Array(n);
+  }
 }
