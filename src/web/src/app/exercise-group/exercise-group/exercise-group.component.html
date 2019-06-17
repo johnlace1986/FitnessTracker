@@ -13,13 +13,13 @@
       </thead>
       <tbody>
         <tr *ngFor="let exercise of group?.exercises">
-          <td class="icon-column"><i class="fas fa-running"></i></td>
+          <td class="icon-column"><i class="fas fa-running exercise-icon"></i></td>
           <td>{{exercise.recorded | date:'EEEE d MMMM y'}}</td>
           <td>{{exercise.distance}}</td>
           <td>{{exercise.timeTaken}}</td>
           <td>{{exercise.caloriesBurned}}</td>
           <td>???</td>
-          <td class="icon-column"><i class="fas fas fa-times"></i></td>
+          <td class="icon-column"><i class="fas fas fa-times delete-icon"></i></td>
         </tr>
       </tbody>
     </table>

@@ -20,3 +20,11 @@ a:hover {
 .icon-column {
     font-size: 20px;
 }
+
+.delete-icon {
+    color: #dc3545;
+}
+
+.exercise-icon {
+    color: #28a745;
+}

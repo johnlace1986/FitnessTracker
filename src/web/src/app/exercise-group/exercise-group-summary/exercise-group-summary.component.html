@@ -6,12 +6,12 @@
           <i class="fas fa-weight"></i>
         </div>
         <div class="col-1 icon-column">
-          <span *ngIf="summary.canDelete"><i class="fas fas fa-times"></i></span>
+          <span *ngIf="summary.canDelete"><i class="fas fas fa-times delete-icon"></i></span>
         </div>
         <div class="col-3">{{summary.recorded | date:'EEEE d MMMM y'}}</div>
         <div class="col-3">{{summary.weight}}</div>
         <div class="col-3 icon-column">
-          <i *ngFor="let item of enumerate(summary.exerciseCount)" class="fas fa-running"></i>
+          <i *ngFor="let item of enumerate(summary.exerciseCount)" class="fas fa-running exercise-icon"></i>
         </div>
         <div class="col-1 icon-column">
           <i *ngIf="summary.isExpanded" class="fas fa-sort-up"></i>
