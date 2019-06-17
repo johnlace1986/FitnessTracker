@@ -30,9 +30,7 @@ export class HomeComponent implements OnInit {
           this.canShowMore = false;
         }
         else {
-          periods.forEach(newPeriod => {
-            console.log(newPeriod);
-            
+          periods.forEach(newPeriod => {            
             var actualPeriod: IExerciseGroupPeriod = null;
 
             this.periods.forEach(currentPeriod => {
