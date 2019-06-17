@@ -30,12 +30,6 @@ namespace FitnessTracker.API.Services
                     Recorded = result.Recorded,
                     Weight = result.Weight,
                     CanDelete = result.CanDelete,
-                    TotalTimeDieting = result.TotalTimeDieting,
-                    WeightLostThisWeek = result.WeightLostThisWeek,
-                    WeightLostInTotal = result.WeightLostInTotal,
-                    WeightLosingPerWeek = result.WeightLosingPerWeek,
-                    TotalExerciseDistance = result.TotalExerciseDistance,
-                    TotalTimeSpentExercising = result.TotalTimeSpentExercising,
                     ExerciseCount = result.Exercises.Count()
                 };
             })).ConfigureAwait(false);

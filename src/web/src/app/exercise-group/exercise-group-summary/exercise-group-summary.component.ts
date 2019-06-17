@@ -11,6 +11,8 @@ export class ExerciseGroupSummaryComponent implements OnInit {
   @Input()
   public summary: IExerciseGroupSummary;
 
+  private contentLoaded: boolean = false;
+
   constructor() { }
 
   ngOnInit() {
@@ -25,5 +27,10 @@ export class ExerciseGroupSummaryComponent implements OnInit {
     
     //property changes before UI updates so we need to use the inverse of aria-expanded
     this.summary.isExpanded = header.getAttribute('aria-expanded') !== 'true'; 
+
+    if (this.summary.isExpanded && !this.contentLoaded) {
+      this.contentLoaded = true;
+      console.log(this.summary);
+    }
   }
 }

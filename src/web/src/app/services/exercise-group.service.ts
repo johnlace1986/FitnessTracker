@@ -41,12 +41,6 @@ export class ExerciseGroupService {
             recorded: summary.recorded,
             weight: summary.weight,
             canDelete: summary.canDelete,
-            totalTimeDieting: summary.totalTimeDieting,
-            weightLostThisWeek: summary.weightLostThisWeek,
-            weightLostInTotal: summary.weightLostInTotal,
-            weightLosingPerWeek: summary.weightLosingPerWeek,
-            totalExerciseDistance: summary.totalExerciseDistance,
-            totalTimeSpentExercising: summary.totalTimeSpentExercising,
             exerciseCount: summary.exerciseCount,
             isExpanded: false
           })
