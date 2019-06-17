@@ -22,9 +22,5 @@ a:hover {
 }
 
 .delete-icon {
-    color: #dc3545;
-}
-
-.exercise-icon {
-    color: #28a745;
+    color: #dc3545 !important;
 }
