@@ -33,23 +33,10 @@ namespace FitnessTracker.API.Services
                 Id = group.Id,
                 Recorded = group.Recorded,
                 Weight = group.Weight,
+                CanDelete = previous != null,
                 Exercises = exercises
             };
 
-            if (previous == null)
-            {
-                result.CanDelete = false;
-            }
-            else
-            {
-                result.CanDelete = true;
-                result.TotalTimeDieting = group.Recorded - first.Recorded;
-                result.WeightLostThisWeek = group.Weight - previous.Weight;
-                result.WeightLostInTotal = group.Weight - first.Weight;
-                ///TODO: result.WeightLosingPerWeek
-                result.TotalExerciseDistance = exercises.Sum(exercise => exercise.Distance);
-                result.TotalTimeSpentExercising = TimeSpan.FromMilliseconds(exercises.Sum(exercise => exercise.TimeTaken.TotalMilliseconds));
-            }
 
             return result;
         }

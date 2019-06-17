@@ -1,0 +1,26 @@
+<div class="exercise-group">
+  <table class="table">
+      <thead>
+        <tr>
+          <th scope="col"></th>
+          <th scope="col">Date</th>
+          <th scope="col">Distance</th>
+          <th scope="col">Time Taken</th>
+          <th scope="col">Calories Burned</th>
+          <th scope="col">Pace</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let exercise of group?.exercises">
+          <td class="icon-column"><i class="fas fa-running"></i></td>
+          <td>{{exercise.recorded | date:'EEEE d MMMM y'}}</td>
+          <td>{{exercise.distance}}</td>
+          <td>{{exercise.timeTaken}}</td>
+          <td>{{exercise.caloriesBurned}}</td>
+          <td>???</td>
+          <td class="icon-column"><i class="fas fa-trash-alt"></i></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

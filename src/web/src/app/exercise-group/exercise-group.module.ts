@@ -7,12 +7,14 @@ import { NewExerciseGroupComponent } from './new-exercise-group/new-exercise-gro
 import { ExerciseGroupPeriodComponent } from './exercise-group-period/exercise-group-period.component';
 import { SharedModule } from '../shared/shared.module';
 import { ExerciseGroupSummaryComponent } from './exercise-group-summary/exercise-group-summary.component';
+import { ExerciseGroupComponent } from './exercise-group/exercise-group.component';
 
 @NgModule({
   declarations: [
     NewExerciseGroupComponent,
     ExerciseGroupPeriodComponent,
-    ExerciseGroupSummaryComponent
+    ExerciseGroupSummaryComponent,
+    ExerciseGroupComponent
   ],
   imports: [
     CommonModule,
@@ -24,7 +26,8 @@ import { ExerciseGroupSummaryComponent } from './exercise-group-summary/exercise
   ],
   exports: [
     ExerciseGroupPeriodComponent,
-    ExerciseGroupSummaryComponent
+    ExerciseGroupSummaryComponent,
+    ExerciseGroupComponent
   ]
 })
 export class ExerciseGroupModule { }

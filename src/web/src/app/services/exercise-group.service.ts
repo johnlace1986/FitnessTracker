@@ -8,6 +8,7 @@ import { IDateWrapper } from '../models/date-wrapper';
 import { IWeight } from '../models/weight';
 import { IExerciseGroupPeriod } from '../models/exercise-group-period';
 import { IExerciseGroupSummary } from '../models/exercise-group-summary';
+import { IExerciseGroupResult } from '../models/exercise-group-result';
 
 
 @Injectable({
@@ -60,6 +61,10 @@ export class ExerciseGroupService {
     });
 
     return mapExerciseGroupPeriods(this._client.get<Array<IExerciseGroupPeriod>>(url));
+  }
+
+  getById(id: string): Observable<IExerciseGroupResult> {
+    return this._client.get<IExerciseGroupResult>(`${this._baseAddress}${id}`);
   }
 
   add(recorded: IDateWrapper, weight: IWeight): Observable<IExerciseGroup> {
