@@ -24,3 +24,15 @@ a:hover {
 .delete-icon {
     color: #dc3545 !important;
 }
+
+.toggle-icon {
+    margin-right: 3px;
+}
+
+.icon-button {
+    background: none;
+    padding: 0;
+    border: none;
+    outline: 0 !important;
+    cursor: pointer;
+}

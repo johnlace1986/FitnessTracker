@@ -1,27 +1,30 @@
 <div class="exercise-group-summary">
-  <p>
-    <a id="{{'summaryHeader' + summary.id}}" data-toggle="collapse" href="{{'#summary' + summary.id}}" role="button" aria-expanded="false" (click)="toggleExpanded()">
-      <div class="row">
-        <div class="col-1 icon-column">
-          <i class="fas fa-weight weight-icon"></i>
-        </div>
-        <div class="col-1 icon-column">
-          <span *ngIf="summary.canDelete"><i class="fas fas fa-times delete-icon"></i></span>
-        </div>
-        <div class="col-3">{{summary.recorded | date:'EEEE d MMMM y'}}</div>
-        <div class="col-3">{{summary.weight}}</div>
-        <div class="col-3 icon-column">
-          <i *ngFor="let item of enumerate(summary.exerciseCount)" class="fas fa-running exercise-icon"></i>
-        </div>
-        <div class="col-1 icon-column">
-          <i *ngIf="summary.isExpanded" class="fas fa-sort-up"></i>
-          <i *ngIf="!summary.isExpanded" class="fas fa-sort-down"></i>
-        </div>
-      </div>
-    </a>
-  </p>
-  
-  <div class="panel-collapse collapse hide" id="{{'summary' + summary.id}}">
+  <div class="row exercise-group-summary-header">
+    <div class="col-1 icon-column">
+      <i class="fas fa-weight weight-icon"></i>
+    </div>
+    <div class="col-1 icon-column">
+      <span *ngIf="summary.canDelete"><i class="fas fas fa-times delete-icon"></i></span>
+    </div>
+    <div class="col-3">{{summary.recorded | date:'EEEE d MMMM y'}}</div>
+    <div class="col-3">
+      <button class="icon-button" (click)="toggleWeightDisplayFormat()">
+        <i class="fas fa-sync-alt toggle-icon"></i>
+      </button>
+      {{summary.weight | weight:weightDisplayFormat }}
+    </div>
+    <div class="col-3 icon-column">
+      <i *ngFor="let item of enumerate(summary.exerciseCount)" class="fas fa-running exercise-icon"></i>
+    </div>
+    <div class="col-1 icon-column">
+      <button type="button" class="icon-button" (click)="toggleIsExpanded()" [attr.aria-controls]="getSummaryPanelId()" [attr.aria-expanded]="summary.isExpanded">
+        <i *ngIf="summary.isExpanded" class="fas fa-sort-up"></i>
+        <i *ngIf="!summary.isExpanded" class="fas fa-sort-down"></i>
+      </button>
+    </div>
+  </div>
+
+  <div id="{{getSummaryPanelId()}}" [ngbCollapse]="!summary.isExpanded" class="exercise-group-summary-content">
     <ft-exercise-group [group]="group"></ft-exercise-group>
   </div>
 </div>
