@@ -7,12 +7,14 @@ import { DatePickerComponent } from './date-picker/date-picker.component';
 import { FormsModule } from '@angular/forms';
 import { SubmitButtonComponent } from './submit-button/submit-button.component';
 import { WeightPipe } from './pipes/weight.pipe';
+import { TimeDifferencePipe } from './pipes/time-difference.pipe';
 
 @NgModule({
   declarations: [
     DatePickerComponent,
     SubmitButtonComponent,
-    WeightPipe
+    WeightPipe,
+    TimeDifferencePipe
   ],
   imports: [
     CommonModule,
@@ -23,6 +25,7 @@ import { WeightPipe } from './pipes/weight.pipe';
     DatePickerComponent,
     SubmitButtonComponent,
     WeightPipe,
+    TimeDifferencePipe,
     NgbModule
   ]
 })

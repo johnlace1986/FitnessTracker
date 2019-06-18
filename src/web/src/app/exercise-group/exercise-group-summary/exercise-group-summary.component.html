@@ -25,6 +25,20 @@
   </div>
 
   <div id="{{getSummaryPanelId()}}" [ngbCollapse]="!summary.isExpanded" class="exercise-group-summary-content">
+
+    <div class="row summary-row summary-row-header">
+      <div class="col-2">Time Dieting</div>
+    </div>
+
+    <div class="row summary-row">
+      <div class="col-2">
+        <button class="icon-button" (click)="toggleTimeDisplayFormat()">
+          <i class="fas fa-sync-alt toggle-icon"></i>
+        </button>
+        {{ summary.recorded | timeDifference:summary.startDate:timeDifferenceDisplayFormat }}
+      </div>
+    </div>
+
     <ft-exercise-group [group]="group"></ft-exercise-group>
   </div>
 </div>

@@ -3,6 +3,7 @@ import { IExerciseGroupSummary } from 'src/app/models/exercise-group-summary';
 import { IExerciseGroupResult } from 'src/app/models/exercise-group-result';
 import { ExerciseGroupService } from 'src/app/services/exercise-group.service';
 import { WeightDisplayFormat } from 'src/app/models/weight-display-format';
+import { TimeDifferenceDisplayFormat } from 'src/app/models/time-difference-display-format';
 
 @Component({
   selector: 'ft-exercise-group-summary',
@@ -15,6 +16,7 @@ export class ExerciseGroupSummaryComponent implements OnInit {
   public summary: IExerciseGroupSummary;
   public group: IExerciseGroupResult = null;
   public weightDisplayFormat: WeightDisplayFormat = WeightDisplayFormat.Stones;
+  public timeDifferenceDisplayFormat: TimeDifferenceDisplayFormat = TimeDifferenceDisplayFormat.Weeks;
 
   constructor(private service: ExerciseGroupService) {  }
 
@@ -53,6 +55,20 @@ export class ExerciseGroupSummaryComponent implements OnInit {
         break;
       case WeightDisplayFormat.Kilograms:
         this.weightDisplayFormat = WeightDisplayFormat.Stones;
+        break;
+    }
+  }
+
+  toggleTimeDisplayFormat() {
+    switch(this.timeDifferenceDisplayFormat) {
+      case TimeDifferenceDisplayFormat.Days:
+        this.timeDifferenceDisplayFormat = TimeDifferenceDisplayFormat.Weeks;
+        break;
+      case TimeDifferenceDisplayFormat.Weeks:
+        this.timeDifferenceDisplayFormat = TimeDifferenceDisplayFormat.Months;
+        break;
+      case TimeDifferenceDisplayFormat.Months:
+        this.timeDifferenceDisplayFormat = TimeDifferenceDisplayFormat.Days;
         break;
     }
   }

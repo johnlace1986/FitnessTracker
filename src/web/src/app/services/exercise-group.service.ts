@@ -42,6 +42,7 @@ export class ExerciseGroupService {
             recorded: summary.recorded,
             weight: summary.weight,
             canDelete: summary.canDelete,
+            startDate: summary.startDate,
             exerciseCount: summary.exerciseCount,
             isExpanded: false
           })

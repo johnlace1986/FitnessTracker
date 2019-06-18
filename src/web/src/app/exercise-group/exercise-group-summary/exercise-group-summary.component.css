@@ -17,3 +17,11 @@
 .exercise-group-summary-content {
     margin-bottom: 6px;
 }
+
+.summary-row {
+    margin-bottom: 12px;
+}
+
+.summary-row-header {
+    font-weight: bold;
+}

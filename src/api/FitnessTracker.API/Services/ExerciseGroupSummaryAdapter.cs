@@ -30,6 +30,7 @@ namespace FitnessTracker.API.Services
                     Recorded = result.Recorded,
                     Weight = result.Weight,
                     CanDelete = result.CanDelete,
+                    StartDate = first.Recorded,
                     ExerciseCount = result.Exercises.Count()
                 };
             })).ConfigureAwait(false);
