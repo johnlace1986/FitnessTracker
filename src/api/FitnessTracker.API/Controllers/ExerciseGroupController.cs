@@ -78,7 +78,6 @@ namespace FitnessTracker.API.Controllers
         private Task<ExerciseGroup> GetInitialExerciseGroup(CancellationToken cancellationToken)
         {
             return Client.GetFirstExerciseGroup(cancellationToken);
-
         }
     }
 }

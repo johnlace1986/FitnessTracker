@@ -14,6 +14,5 @@ namespace FitnessTracker.Services
         Task<TModel> InsertAsync(IRequest<TModel> request, CancellationToken cancellationToken);
 
         Task DeleteAsync(Guid id, CancellationToken cancellationToken);
-
     }
 }

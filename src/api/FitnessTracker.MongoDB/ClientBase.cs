@@ -52,7 +52,7 @@ namespace FitnessTracker.MongoDB
             return Collection.DeleteOneAsync(GetByIdFilter(id), new DeleteOptions(), cancellationToken);
         }
 
-        private FilterDefinition<TModel> GetByIdFilter(Guid id)
+        private static FilterDefinition<TModel> GetByIdFilter(Guid id)
         {
             return Builders<TModel>.Filter.Eq(model => model.Id, id);
         }
