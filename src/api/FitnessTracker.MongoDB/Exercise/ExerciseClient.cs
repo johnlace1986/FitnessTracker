@@ -19,12 +19,12 @@ namespace FitnessTracker.MongoDB.Exercise
         {
             var pipeline = new[]
             {
-                new BsonDocument {{"$sort", new BsonDocument {{"Recorded", 1}}}},
-                new BsonDocument {{"$match", new BsonDocument{{"$and", new BsonArray
+                BsonDocumentHelper.Map("$sort", BsonDocumentHelper.Map("Recorded", 1)),
+                BsonDocumentHelper.Map("$match", BsonDocumentHelper.Map("$and", new BsonArray
                 {
-                    new BsonDocument{{"Recorded", new BsonDocument{{"$gt", from}}}},
-                    new BsonDocument{{"Recorded", new BsonDocument{{"$lt", to}}}}
-                }}}}}
+                    BsonDocumentHelper.Map("Recorded", BsonDocumentHelper.Map("$gt", from)),
+                    BsonDocumentHelper.Map("Recorded", BsonDocumentHelper.Map("$lt", to))
+                }))
             };
 
             var cursor = await Collection.AggregateAsync<Models.Exercise>(pipeline.ToList(), new AggregateOptions(), cancellationToken).ConfigureAwait(false);
