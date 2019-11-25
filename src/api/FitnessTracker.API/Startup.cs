@@ -50,8 +50,7 @@ namespace FitnessTracker.API
                 app.UseHsts();
             }
 
-            CorsConfiguration.UsePolicies(app, corsOptions);
-
+            app.UseCors(corsOptions);
             app.UseMvc();
         }
     }

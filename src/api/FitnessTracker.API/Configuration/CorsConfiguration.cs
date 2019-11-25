@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using FitnessTracker.API.Configuration.Options;
+﻿using FitnessTracker.API.Configuration.Options;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using System.Linq;
 
 namespace FitnessTracker.API.Configuration
 {
@@ -34,7 +30,7 @@ namespace FitnessTracker.API.Configuration
             });
         }
 
-        public static void UsePolicies(IApplicationBuilder app, IOptions<CorsOptions> corsOptions)
+        public static void UseCors(this IApplicationBuilder app, IOptions<CorsOptions> corsOptions)
         {
             foreach (var policy in corsOptions.Value.Policies)
             {
